@@ -21,10 +21,12 @@
 
 ## Fase 2 — Modelo de contenido
 
-- [ ] Schema de `products` (líneas, composición, presentaciones, PDFs, cultivos)
+- [ ] Schema de `products` (líneas reales de `productos/`, composición, presentaciones, PDFs, cultivos)
 - [ ] Schema de `crops` (extensivo / intensivo + descripción)
 - [ ] Colección `site` para textos institucionales
-- [ ] Carga inicial de los 14 productos relevados (docs/contenido-relevado.md)
+- [ ] Carga inicial: 16 productos (14 relevados de la web actual + Microar, Ferti Pasturas,
+      Nitro Value y la variante MicroCanphos 2020 registrados en `productos/`)
+- [ ] Selección y optimización del material de `productos/` → `src/assets/` + `public/files/`
 - **Cierre cuando:** la colección compila con el schema y los datos están cargados.
 
 ## Fase 3 — Institucional
@@ -76,13 +78,29 @@
 - Multilenguaje (si hay demanda de exportación)
 - Nuevas secciones / campañas
 
+## Preguntas respondidas (nov-2026, cliente)
+
+1. **PDFs:** hay fichas técnicas de algunos productos; generar/actualizar el resto es tarea
+   incremental del cliente ("las placas" y material siguen creciendo). El diseño debe soportar
+   fichas con **falta de PDF** (mostrar "solicitar desde contacto" en lo que falte).
+2. **Email del formulario:** hoy lo resuelve Wix; se mantiene el requisito de dejar el mail
+   visible en la casilla de la empresa; ideal híbrido con aviso por WhatsApp (ver perfil
+   técnico, sección Formulario).
+3. **Identidad:** el cliente produce el material gráfico que haga falta (sabe convertir a WebP).
+4. **Fotos:** existen fotos de presentaciones y placas para redes de los productos → el diseño
+   SÍ cuenta con imágenes reales.
+
+## Material crudo disponible
+
+- `productos/` (fuera de git): **5 líneas, 16 productos**, con fotos (PNG/JPEG) y 19 PDFs.
+- Los PDFs agrupados por cultivo de la web vieja siguen siendo referencia; la meta es ficha
+  técnica + manual por producto.
+
 ## Preguntas abiertas (bloquean detalles, no el arranque)
 
-1. **Email del formulario:** ¿qué casillas usan y si tienen un SMTP propio (Google Workspace /
-   corporativo)? Define entre servicio externo y backend propio.
-2. **PDFs por producto:** ¿existen fichas técnicas/manuales **individuales** por producto, o solo
-   los agrupados por cultivo que publicó la web actual?
-3. **Fotos de productos:** ¿hay fotos de las presentaciones (big bags, bolsas, bidones)? El diseño
-   actual casi no las tiene.
-4. **Identidad visual:** ¿hay manual de marca (colores, tipografía)? ¿El logo actual es final?
-5. ¿El contenido institucional y las fichas los provee ustedes editados, o los proponemos desde lo relevado y los aprueban?
+1. ¿Qué casilla(s) reciben el foco del formulario de contacto (hoy: ventas1@ y expo@)?
+2. ¿El WhatsApp de aviso es el general de ventas (351 6529666) o por vendedor/zona?
+3. Preferencia de tipografía/servicio de tipografías para la marca (falta definirla).
+4. ¿Quién aprueba los textos institucionales propuestos (relevados de la web actual) antes del
+   deploy final?
+

@@ -49,10 +49,21 @@ La clave del pedido del negocio ("llegar a los mismos productos por caminos dife
 
 **`products` (schema, campos principales)**
 
+La taxonomía de líneas es la real del negocio, tomada de la carpeta `productos/` (no la
+simplificada de la web vieja):
+
+| Línea | Valor `enum` | Productos detectados |
+|---|---|---|
+| Arrancadores y Fertilizantes | `arrancadores` | Microar, MicroCanphos, MicroCanphos 2020, MicroCanphos Soja, Microfusión |
+| Bioestimulantes | `bioestimulantes` | Canpholiar |
+| Correctores de Suelo | `correctores` | Fertical, Fertical + MgO, Full Sulfomag, Yag |
+| Jardinería | `jardin` | Green Up, Súper Fertil |
+| Mejoradores de Eficiencia | `mejoradores` | Canphos, Ferti Pasturas, N30, Nitro Value |
+
 | Campo | Tipo | Uso |
 |---|---|---|
 | `nombre` | string | Título de la ficha |
-| `linea` | enum (`seed` / `blends` / `minerals` / `soil` / `garden`) | Umra: fertilizantes microgranulados, mezclas químicas, minerales y organominerales, correctores de suelo, jardín |
+| `linea` | enum (ver arriba) | Camino por producto: agrupación en el índice |
 | `composicion` | string | N, P2O5, etc. (texto libre; el acreditado son los PDFs) |
 | `mezcla` / `formaFisica` | enum | Datos tipo "Química", "Microgranulado" |
 | `presentaciones` | array de string | "Big Bag de 600 Kg", "Bolsa de 20 kg" |
@@ -70,6 +81,16 @@ La clave del pedido del negocio ("llegar a los mismos productos por caminos dife
 - HTML semántico, `alt` en imágenes, títulos jerárquicos.
 - `<title>` y meta description por página; sitemap y robots en el build.
 - Performance: imágenes con `src/assets` (AVIF/WebP automático), JS mínimo (Astro "zero JS" por defecto).
+
+**Materiales crudos — regla importante**
+
+- El material de origen (fotos en alta, placas de redes, PDFs) vive en `productos/` en la raíz del
+  repo, organizado como `productos/<Línea>/<Producto>/`. Está **fuera del control de versiones**
+  (`.gitignore`): son ~148 MB de binarios, no es código del sitio.
+- El flujo de trabajo: del material crudo se **selecciona y optimiza** lo que el sitio necesita →
+  las imágenes van a `src/assets/` (WebP/AVIF), los PDFs finales comprimidos van a `public/files/`
+  (concretar con cliente, y verificar presupuesto de 20 MB antes del deploy).
+- Ingresar/aumentar material crudo **no** genera build ni commits: la recompensa es estrictamente manual.
 
 ## Reglas de assets (presupuesto 20 MB)
 

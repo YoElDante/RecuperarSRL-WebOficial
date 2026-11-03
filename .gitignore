@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Raw product source material (images/PDFs inbox, not site code)
+productos/
+
 # Build output
 dist/
 build/

@@ -26,15 +26,21 @@
 
 ## Formulario de contacto — el único punto "no estático"
 
-La web actual usa el formulario nativo de Wix (envía a casillas de la empresa). En la nueva
-web hay dos caminos posibles; la decisión se tomará tras consultar al cliente:
+La web actual usa el formulario nativo de Wix (mails a las casillas de la empresa).
+El cliente definió el requerimiento (nov-2026):
 
-| Opción | Cómo | Trade-off |
+- **Mínimo:** las consultas siguen quedando visibles en la casilla de la empresa, como hoy.
+- **Ideal (híbrido):** además del mail, notificar por **WhatsApp** al área de ventas
+  (351 6529666).
+
+Como el sitio nuevo es estático, la implementación concreta:
+
+| Camino | Cómo | Trade-off |
 |---|---|---|
-| **A. Servicio de email externo** (Formspree / Web3Forms / EmailJS) | El form estático POSTea al servicio; reenvía los mails | Cero backend, deploy en segundos; dependencia externa (free tier) |
-| **B. Backend en Wix Headless via CLI** (Astro + runtime Workers + API de mail, ej. Resend) | Endpoint propio en el deploy CLI | Autonomía; require `npx wix release` y configuración inicial |
+| **Elegido a explorar** | Servicio de formulario estático (Formspree / Web3Forms) que entrega el mail a la casilla de la empresa + auto-respuesta al visitante; webhook hacia un proveedor de WhatsApp (Meta Cloud API u otro) para el aviso a ventas | Cero backend, deploy en segundos; dos servicios externos (con free tier) a evaluar |
+| Fallback | Backend en Wix Headless vía CLI (Astro + runtime Cloudflare Workers + API de mail/WhatsApp) | Autonomía; requiere `npx wix release` y configuración inicial |
 
-Ambos permiten: mail a la empresa **+ auto-respuesta al visitante** (requisito del negocio).
+Pendiente: proveedor de email y proveedor de WhatsApp (ver backlog, Fase 5).
 
 ## Requisitos funcionales (resumen de lo relevado)
 
