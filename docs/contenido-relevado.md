@@ -14,7 +14,7 @@
 | Planta Córdoba | Ruta Nac. 9 (N) km 747, Parque Industrial Puerto Caroya |
 | Planta / cantera La Rioja | San Ramón — Ruta Prov. 28 km 65 |
 | Web actual | https://www.recuperarsrl.com.ar (Wix Editor) |
-| Redes | Facebook `fertilizantesrecuperar`, Instagram `@recuperar_srl`, YouTube `@recuperarsrl7051` |
+| Redes | Facebook `fertilizantesrecuperar`, Instagram `@recuperar_srl`, YouTube `@recuperarsrl7051`, LinkedIn `/company/recuperar-srl` |
 
 **Contactos**
 
@@ -27,6 +27,8 @@
 | Mail (header) | expo@recuperarsrl.com.ar |
 | Mail (contacto) | ventas1@recuperarsrl.com.ar |
 | Tel. header | +54 351 4816012 |
+
+> Datos completos y actualizados: ver `docs/ficha-empresa.md` (fuente de verdad).
 
 ## Menú actual
 

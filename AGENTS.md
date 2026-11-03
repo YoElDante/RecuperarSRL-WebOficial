@@ -65,6 +65,8 @@ npm run check      # type/content-collection checks, run before committing
 | `docs/arquitectura-estructura.md` | structure, data model, asset rules |
 | `docs/backlog.md` | phase plan + open questions |
 | `docs/contenido-relevado.md` | real content inventory from the current site |
+| `docs/ficha-empresa.md` | official company data (phones, socials, plants, LinkedIn profile) — source of truth for site content |
+| `docs/inspiracion-diseno.md` | design reference: fertinagro.es patterns and their application |
 | `docs/wix/` | Wix ecosystem research and setup notes |
 
 When a decision is made in chat, update the relevant doc and commit it (`docs:`). Do not start

@@ -1,7 +1,9 @@
 # Backlog — Web Oficial RECUPERAR S.R.L.
 
-> Plan de trabajo por fases. Mentón clave del proceso: **el sitio viejo sigue online hasta que
-> el nuevo esté aprobado**; el swap de dominio es el último paso.
+> Plan de trabajo por fases. Referencias de propósito: `docs/ficha-empresa.md` (datos oficiales),
+> `docs/inspiracion-diseno.md` (diseño, basado en fertinagro.es). Nota clave del proceso:
+> **el sitio viejo sigue online hasta que el nuevo esté aprobado**; el swap de dominio es el
+> último paso.
 
 ## Estado actual
 

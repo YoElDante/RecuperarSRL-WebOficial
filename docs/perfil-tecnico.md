@@ -59,4 +59,6 @@ Pendiente: proveedor de email y proveedor de WhatsApp (ver backlog, Fase 5).
 
 - `docs/wix/` — decisiones sobre Wix (Headless, Git Integration).
 - `docs/contenido-relevado.md` — inventario de la web actual (productos, cultivos, contacto).
+- `docs/ficha-empresa.md` — datos oficiales de la empresa (fuente de verdad).
+- `docs/inspiracion-diseno.md` — referencia de diseño (fertinagro.es).
 - `docs/backlog.md` — plan de trabajo y preguntas abiertas.
