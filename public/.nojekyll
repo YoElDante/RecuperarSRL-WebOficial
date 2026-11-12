@@ -1,0 +1,1 @@
+# Tell GitHub Pages not to run Jekyll on the artifact (would drop _astro/).

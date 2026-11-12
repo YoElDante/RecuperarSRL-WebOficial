@@ -1,0 +1,10 @@
+# Normalize line endings so Windows and CI produce identical diffs.
+* text=auto eol=lf
+
+# Binary assets must never be line-ending normalized.
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.woff2 binary
