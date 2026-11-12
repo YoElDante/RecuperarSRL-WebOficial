@@ -4,9 +4,15 @@ node_modules/
 # Raw product source material (images/PDFs inbox, not site code)
 productos/
 
+# Downloaded reference sites (inspiration only, never shipped)
+inspiraciones/
+
 # Build output
 dist/
 build/
+
+# Astro generated types and cache
+.astro/
 
 # Environment
 .env
