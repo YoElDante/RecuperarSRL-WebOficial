@@ -1,0 +1,85 @@
+---
+/*
+ * HeaderDropdown — a nav item with a hover/focus dropdown, no JavaScript.
+ *
+ * The menu opens on :hover and :focus-within, so keyboard users can reach every
+ * child link. The amber top border is the PronoAgro signature.
+ */
+import type { NavItem } from '../../lib/site';
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  item: NavItem;
+  actual?: string;
+}
+const { item, actual = '' } = Astro.props;
+---
+
+<div class="dropdown">
+  <a class="nav-link dropdown__trigger" href={item.href}>
+    {item.label}
+    <Icon name="chevron-down" size={15} />
+  </a>
+  <div class="dropdown__menu" role="menu">
+    {
+      item.children?.map((child) => (
+        <a
+          role="menuitem"
+          href={child.href}
+          aria-current={actual === child.href ? 'page' : undefined}
+        >
+          {child.label}
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .dropdown {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .dropdown__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+  .dropdown__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    background: var(--brand-900);
+    border-top: 3px solid var(--accent-fill);
+    box-shadow: var(--shadow-3);
+    padding: var(--space-2) 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+    z-index: 10;
+  }
+  .dropdown:hover .dropdown__menu,
+  .dropdown:focus-within .dropdown__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown__menu a {
+    display: block;
+    padding: var(--space-2) var(--space-4);
+    color: var(--text-on-dark);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .dropdown__menu a:hover,
+  .dropdown__menu a:focus {
+    background: rgba(255, 255, 255, 0.08);
+    padding-left: var(--space-5);
+    color: #fff;
+  }
+</style>

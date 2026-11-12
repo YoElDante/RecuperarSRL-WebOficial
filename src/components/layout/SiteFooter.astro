@@ -1,0 +1,166 @@
+---
+/*
+ * SiteFooter — dark 5-column footer with the full NAP, product/crop links and
+ * the official social networks. All contact data comes from the content layer.
+ */
+import type { ContactoData } from '../../lib/site';
+import { LINEAS, TIPOS_CULTIVO } from '../../lib/taxonomy';
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  contacto: ContactoData;
+}
+const { contacto } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="footer-col footer-col--brand">
+      <img src="/logo.svg" alt="RECUPERAR S.R.L." width="160" height="36" loading="lazy" />
+      <p>
+        Fertilizantes microgranulados, mezclas químicas y correctores para el agro.
+        Córdoba, Argentina.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-title">Productos</h2>
+      <ul>
+        {LINEAS.map((linea) => <li><a href={`/productos#linea-${linea.id}`}>{linea.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-title">Cultivos</h2>
+      <ul>
+        {TIPOS_CULTIVO.map((tipo) => <li><a href={`/cultivos/${tipo.id}s`}>{tipo.plural}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-title">Empresa</h2>
+      <ul>
+        <li><a href="/la-empresa">La Empresa</a></li>
+        <li><a href="/que-hacemos">¿Qué Hacemos?</a></li>
+        <li><a href="/manuales">Manuales de Uso</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-title">Contacto</h2>
+      <ul class="footer-contact">
+        <li><Icon name="map-pin" size={16} /><span>{contacto.oficina}</span></li>
+        <li><Icon name="phone" size={16} /><span>{contacto.telefonos[0]?.telefono}</span></li>
+        <li><Icon name="mail" size={16} /><span>{contacto.mails[0]}</span></li>
+      </ul>
+      <div class="footer-social">
+        {
+          contacto.redes.map((r) => (
+            <a href={r.url} target="_blank" rel="noopener" aria-label={r.nombre}>
+              <Icon name={r.nombre.toLowerCase()} size={18} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} RECUPERAR S.R.L. — 100 % capitales nacionales.</p>
+    <p>Fábrica de fertilizantes microgranulados · Córdoba, Argentina</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--brand-900);
+    color: var(--text-on-dark);
+    padding-top: var(--space-8);
+    margin-top: var(--space-8);
+  }
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+  .footer-col--brand p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: var(--space-3);
+    color: var(--text-on-dark);
+  }
+  .footer-title {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin: 0 0 var(--space-3);
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-col a {
+    color: var(--text-on-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .footer-col a:hover {
+    color: var(--accent-fill);
+  }
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+  }
+  .footer-contact :global(svg) {
+    flex-shrink: 0;
+    color: var(--accent-fill);
+    margin-top: 2px;
+  }
+  .footer-social {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .footer-social a {
+    display: inline-flex;
+    padding: var(--space-2);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    color: var(--accent-fill);
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: var(--space-7);
+    padding-block: var(--space-5);
+    font-size: 0.8rem;
+    color: var(--text-on-dark);
+  }
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .site-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .site-footer__grid {
+      grid-template-columns: 2fr repeat(4, 1fr);
+    }
+  }
+</style>

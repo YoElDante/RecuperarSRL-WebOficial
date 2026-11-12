@@ -1,0 +1,41 @@
+---
+/*
+ * FloatingWhatsApp — fixed WhatsApp button, bottom right.
+ * Links to wa.me with a prefilled greeting; respects iOS safe area.
+ */
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  telefono: string;
+  label?: string;
+}
+const { telefono, label = 'Hablá con ventas por WhatsApp' } = Astro.props;
+const href = `https://wa.me/${telefono}?text=${encodeURIComponent('Hola, quisiera hacer una consulta.')}`;
+---
+
+<a class="floating-whatsapp" href={href} target="_blank" rel="noopener" aria-label={label}>
+  <Icon name="whatsapp" size={26} />
+</a>
+
+<style>
+  .floating-whatsapp {
+    position: fixed;
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    z-index: var(--z-floating);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius);
+    background: var(--whatsapp);
+    color: #06331a;
+    box-shadow: var(--shadow-3);
+    transition: transform var(--dur) var(--ease);
+  }
+  .floating-whatsapp:hover {
+    transform: translateY(-2px);
+    color: #06331a;
+  }
+</style>

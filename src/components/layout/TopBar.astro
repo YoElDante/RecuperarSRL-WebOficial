@@ -1,0 +1,96 @@
+---
+/*
+ * TopBar — thin contact strip above the header (desktop only).
+ * Shows the sales phones by zone, the main mail and the 4 social networks,
+ * all pulled from the `contacto` content page. Hidden below 1024px.
+ */
+import type { ContactoData } from '../../lib/site';
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  contactos: ContactoData;
+}
+const { contactos } = Astro.props;
+
+/* Build a tel: link from a human-formatted Argentine number. */
+const telHref = (telefono: string) => `tel:+54${telefono.replace(/\s+/g, '')}`;
+---
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__phones">
+      {
+        contactos.telefonos.map((t) => (
+          <a href={telHref(t.telefono)}>
+            <Icon name="phone" size={14} />
+            <span>{t.zona}: {t.telefono}</span>
+          </a>
+        ))
+      }
+    </div>
+    <div class="topbar__right">
+      <a href={`mailto:${contactos.mails[0]}`}>
+        <Icon name="mail" size={14} />
+        <span>{contactos.mails[0]}</span>
+      </a>
+      <div class="topbar__social">
+        {
+          contactos.redes.map((r) => (
+            <a href={r.url} target="_blank" rel="noopener" aria-label={r.nombre}>
+              <Icon name={r.nombre.toLowerCase()} size={16} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    display: none;
+    background: var(--brand-900);
+    color: var(--text-on-dark);
+    font-size: 0.78rem;
+  }
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 36px;
+    flex-wrap: wrap;
+  }
+  .topbar__phones,
+  .topbar__right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .topbar a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-on-dark);
+    text-decoration: none;
+  }
+  .topbar a:hover {
+    color: #fff;
+  }
+  .topbar__social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .topbar__social a {
+    color: var(--accent-fill);
+  }
+
+  /* The thin bar only has room on wide screens. */
+  @media (min-width: 1024px) {
+    .topbar {
+      display: block;
+    }
+  }
+</style>

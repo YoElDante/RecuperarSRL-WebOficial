@@ -1,0 +1,63 @@
+---
+/*
+ * BaseLayout — the single page shell for the whole site.
+ *
+ * Loads fonts and global styles, builds SEO head tags from a `Meta` object,
+ * emits Organization JSON-LD once, and mounts the shared chrome: top bar,
+ * header, footer, floating WhatsApp and back-to-top.
+ */
+import '@fontsource/barlow/700.css';
+import '@fontsource/barlow/800.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import TopBar from '../components/layout/TopBar.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import FloatingWhatsApp from '../components/layout/FloatingWhatsApp.astro';
+import BackToTop from '../components/layout/BackToTop.astro';
+import { getContacto, getNav } from '../lib/site';
+import { organizationJsonLd, type Meta } from '../lib/seo';
+
+interface Props {
+  meta: Meta;
+  actual?: string;
+}
+const { meta, actual = '' } = Astro.props;
+
+const contacto = await getContacto();
+const nav = getNav();
+const jsonLd = contacto ? organizationJsonLd(contacto) : null;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={meta.canonical} />
+    {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content={meta.ogType ?? 'website'} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={meta.canonical} />
+    <meta property="og:locale" content="es_AR" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    {contacto && <TopBar contactos={contacto} />}
+    <SiteHeader nav={nav} actual={actual} />
+    <main id="contenido">
+      <slot />
+    </main>
+    {contacto && <SiteFooter contacto={contacto} />}
+    {contacto && <FloatingWhatsApp telefono={contacto.whatsapp} />}
+    <BackToTop />
+  </body>
+</html>

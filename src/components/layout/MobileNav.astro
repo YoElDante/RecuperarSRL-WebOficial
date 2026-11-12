@@ -1,0 +1,120 @@
+---
+/*
+ * MobileNav — full-width collapsible menu built on <details>/<summary>.
+ * Works with JavaScript disabled. Groups become accordions; the panel also
+ * exposes a direct "Contacto" call to action.
+ */
+import type { NavItem } from '../../lib/site';
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  nav: NavItem[];
+  actual?: string;
+}
+const { nav, actual = '' } = Astro.props;
+---
+
+<details class="mobile-nav">
+  <summary class="mobile-nav__toggle" aria-label="Abrir menú de navegación">
+    <Icon name="menu" size={26} />
+  </summary>
+  <div class="mobile-nav__panel">
+    {
+      nav.map((item) =>
+        item.children ? (
+          <details class="mobile-nav__group">
+            <summary>
+              {item.label}
+              <Icon name="chevron-down" size={18} />
+            </summary>
+            <ul>
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} aria-current={actual === child.href ? 'page' : undefined}>
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : (
+          <a class="mobile-nav__link" href={item.href}>
+            {item.label}
+          </a>
+        ),
+      )
+    }
+    <a class="btn btn-primary" href="/contacto">Contacto</a>
+  </div>
+</details>
+
+<style>
+  .mobile-nav {
+    margin-left: auto;
+  }
+  .mobile-nav__toggle {
+    list-style: none;
+    cursor: pointer;
+    color: #fff;
+    display: inline-flex;
+    padding: var(--space-2);
+    border-radius: var(--radius);
+  }
+  .mobile-nav__toggle::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-nav__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--brand-600);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-3);
+  }
+  .mobile-nav__group summary,
+  .mobile-nav__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    list-style: none;
+  }
+  .mobile-nav__group summary::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-nav__group ul {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-2) 0 var(--space-2) var(--space-4);
+    border-left: 3px solid var(--accent-fill);
+  }
+  .mobile-nav__group ul a {
+    display: block;
+    padding: var(--space-2);
+    color: var(--text-on-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .mobile-nav__panel .btn {
+    margin-top: var(--space-2);
+  }
+
+  /* Hide on desktop; the header shows the horizontal nav instead. */
+  @media (min-width: 1024px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+/*
+ * BackToTop — a fixed anchor that scrolls back to the header (#top).
+ * Zero JavaScript: it is a plain link.
+ */
+import Icon from '../primitives/Icon.astro';
+---
+
+<a class="back-to-top" href="#top" aria-label="Volver arriba">
+  <Icon name="chevron-down" size={22} class="back-to-top__icon" />
+</a>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + 60px + env(safe-area-inset-bottom, 0px));
+    z-index: var(--z-floating);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius);
+    background: var(--brand-600);
+    color: #fff;
+    box-shadow: var(--shadow-2);
+  }
+  .back-to-top:hover {
+    background: var(--brand-500);
+    color: #fff;
+  }
+  .back-to-top__icon {
+    transform: rotate(180deg);
+  }
+</style>
