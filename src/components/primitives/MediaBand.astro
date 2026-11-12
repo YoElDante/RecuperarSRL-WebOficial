@@ -6,6 +6,7 @@
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   titulo: string;
@@ -31,7 +32,7 @@ const { titulo, texto, items, accion, imagen, invertida = false, tono = 'oscuro'
           </ul>
         )
       }
-      {accion && <a class="btn btn-primary" href={accion.href}>{accion.label}</a>}
+      {accion && <a class="btn btn-primary" href={url(accion.href)}>{accion.label}</a>}
     </div>
     <div class="media-band__media">
       {

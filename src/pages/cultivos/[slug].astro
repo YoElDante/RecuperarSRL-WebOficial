@@ -15,6 +15,7 @@ import { getAllCrops } from '../../lib/crops';
 import { getByCultivo } from '../../lib/products';
 import { getContacto } from '../../lib/site';
 import { buildMeta } from '../../lib/seo';
+import { url } from '../../lib/urls';
 
 /* One static page per crop. */
 export async function getStaticPaths() {
@@ -66,7 +67,7 @@ const meta = buildMeta({
           </CardGrid>
         ) : (
           <p class="empty">
-            Todavía no hay productos asociados a este cultivo. <a href="/contacto">Consultanos</a>.
+            Todavía no hay productos asociados a este cultivo. <a href={url('/contacto')}>Consultanos</a>.
           </p>
         )
       }

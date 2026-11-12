@@ -7,6 +7,7 @@
  */
 import type { NavItem } from '../../lib/site';
 import Icon from '../primitives/Icon.astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   item: NavItem;
@@ -26,7 +27,7 @@ const { item, actual = '' } = Astro.props;
         <a
           role="menuitem"
           href={child.href}
-          aria-current={actual === child.href ? 'page' : undefined}
+          aria-current={url(actual) === child.href ? 'page' : undefined}
         >
           {child.label}
         </a>

@@ -8,6 +8,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
+import { url } from '../../lib/urls';
 
 export interface Accion {
   label: string;
@@ -51,7 +52,7 @@ const btnClass = (v: Accion['variant'] = 'primary') =>
         {acciones.map((a) => (
           <a
             class={btnClass(a.variant)}
-            href={a.href}
+            href={url(a.href)}
             target={a.externo ? '_blank' : undefined}
             rel={a.externo ? 'noopener' : undefined}
           >

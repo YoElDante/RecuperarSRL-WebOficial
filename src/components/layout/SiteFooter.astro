@@ -6,6 +6,7 @@
 import type { ContactoData } from '../../lib/site';
 import { LINEAS, TIPOS_CULTIVO } from '../../lib/taxonomy';
 import Icon from '../primitives/Icon.astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   contacto: ContactoData;
@@ -16,7 +17,7 @@ const { contacto } = Astro.props;
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="footer-col footer-col--brand">
-      <img src="/logo.svg" alt="RECUPERAR S.R.L." width="160" height="36" loading="lazy" />
+      <img src={url('/logo.svg')} alt="RECUPERAR S.R.L." width="160" height="36" loading="lazy" />
       <p>
         Fertilizantes microgranulados, mezclas químicas y correctores para el agro.
         Córdoba, Argentina.
@@ -26,24 +27,28 @@ const { contacto } = Astro.props;
     <div class="footer-col">
       <h2 class="footer-title">Productos</h2>
       <ul>
-        {LINEAS.map((linea) => <li><a href={`/productos#linea-${linea.id}`}>{linea.label}</a></li>)}
+        {LINEAS.map((linea) => (
+          <li><a href={url(`/productos#linea-${linea.id}`)}>{linea.label}</a></li>
+        ))}
       </ul>
     </div>
 
     <div class="footer-col">
       <h2 class="footer-title">Cultivos</h2>
       <ul>
-        {TIPOS_CULTIVO.map((tipo) => <li><a href={`/cultivos/${tipo.id}s`}>{tipo.plural}</a></li>)}
+        {TIPOS_CULTIVO.map((tipo) => (
+          <li><a href={url(`/cultivos/${tipo.id}s`)}>{tipo.plural}</a></li>
+        ))}
       </ul>
     </div>
 
     <div class="footer-col">
       <h2 class="footer-title">Empresa</h2>
       <ul>
-        <li><a href="/la-empresa">La Empresa</a></li>
-        <li><a href="/que-hacemos">¿Qué Hacemos?</a></li>
-        <li><a href="/manuales">Manuales de Uso</a></li>
-        <li><a href="/contacto">Contacto</a></li>
+        <li><a href={url('/la-empresa')}>La Empresa</a></li>
+        <li><a href={url('/que-hacemos')}>¿Qué Hacemos?</a></li>
+        <li><a href={url('/manuales')}>Manuales de Uso</a></li>
+        <li><a href={url('/contacto')}>Contacto</a></li>
       </ul>
     </div>
 

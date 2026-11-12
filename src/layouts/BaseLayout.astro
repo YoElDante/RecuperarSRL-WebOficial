@@ -20,6 +20,7 @@ import FloatingWhatsApp from '../components/layout/FloatingWhatsApp.astro';
 import BackToTop from '../components/layout/BackToTop.astro';
 import { getContacto, getNav } from '../lib/site';
 import { organizationJsonLd, type Meta } from '../lib/seo';
+import { IS_SUBPATH_BUILD, url } from '../lib/urls';
 
 interface Props {
   meta: Meta;
@@ -41,12 +42,14 @@ const jsonLd = contacto ? organizationJsonLd(contacto) : null;
     <meta name="description" content={meta.description} />
     <link rel="canonical" href={meta.canonical} />
     {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
+    {/* A subpath build is the staging preview: never let crawlers index it. */}
+    {IS_SUBPATH_BUILD && !meta.noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:type" content={meta.ogType ?? 'website'} />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={meta.canonical} />
     <meta property="og:locale" content="es_AR" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>

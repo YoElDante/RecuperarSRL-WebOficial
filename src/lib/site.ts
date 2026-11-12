@@ -6,6 +6,7 @@
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { LINEAS, TIPOS_CULTIVO } from './taxonomy';
+import { url } from './urls';
 
 type SiteEntry = CollectionEntry<'site'>;
 type PaginaNombre = SiteEntry['data']['pagina'];
@@ -43,21 +44,21 @@ export function getNav(): NavItem[] {
   return [
     {
       label: 'Productos',
-      href: '/productos',
+      href: url('/productos'),
       children: LINEAS.map((linea) => ({
         label: linea.label,
-        href: `/productos#linea-${linea.id}`,
+        href: url(`/productos#linea-${linea.id}`),
       })),
     },
     {
       label: 'Cultivos',
-      href: '/cultivos/extensivos',
+      href: url('/cultivos/extensivos'),
       children: TIPOS_CULTIVO.map((tipo) => ({
         label: tipo.plural,
-        href: `/cultivos/${tipo.id}s`,
+        href: url(`/cultivos/${tipo.id}s`),
       })),
     },
-    { label: 'La Empresa', href: '/la-empresa' },
-    { label: '¿Qué Hacemos?', href: '/que-hacemos' },
+    { label: 'La Empresa', href: url('/la-empresa') },
+    { label: '¿Qué Hacemos?', href: url('/que-hacemos') },
   ];
 }

@@ -5,6 +5,7 @@
  */
 import type { Linea } from '../../lib/taxonomy';
 import Icon from './Icon.astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   linea: Linea;
@@ -13,7 +14,7 @@ interface Props {
 const { linea, cantidad } = Astro.props;
 ---
 
-<a class="line-card" href={`/productos#linea-${linea.id}`}>
+<a class="line-card" href={url(`/productos#linea-${linea.id}`)}>
   <span class="line-card__icon">
     <Icon name={linea.icono} size={30} />
   </span>

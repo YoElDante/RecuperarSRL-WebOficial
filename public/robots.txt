@@ -1,5 +1,0 @@
-# robots.txt — allow everything, point crawlers at the generated sitemap.
-User-agent: *
-Allow: /
-
-Sitemap: https://www.recuperarsrl.com.ar/sitemap-index.xml

@@ -6,6 +6,7 @@
  */
 import type { NavItem } from '../../lib/site';
 import Icon from '../primitives/Icon.astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   nav: NavItem[];
@@ -30,7 +31,7 @@ const { nav, actual = '' } = Astro.props;
             <ul>
               {item.children.map((child) => (
                 <li>
-                  <a href={child.href} aria-current={actual === child.href ? 'page' : undefined}>
+                  <a href={child.href} aria-current={url(actual) === child.href ? 'page' : undefined}>
                     {child.label}
                   </a>
                 </li>
@@ -44,7 +45,7 @@ const { nav, actual = '' } = Astro.props;
         ),
       )
     }
-    <a class="btn btn-primary" href="/contacto">Contacto</a>
+    <a class="btn btn-primary" href={url('/contacto')}>Contacto</a>
   </div>
 </details>
 

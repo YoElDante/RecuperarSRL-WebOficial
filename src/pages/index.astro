@@ -23,6 +23,7 @@ import { getHome, getContacto } from '../lib/site';
 import { getLineasConConteo, getDestacados } from '../lib/products';
 import { TIPOS_CULTIVO } from '../lib/taxonomy';
 import { buildMeta } from '../lib/seo';
+import { url } from '../lib/urls';
 
 const meta = buildMeta({
   titulo: 'RECUPERAR S.R.L. — Fertilizantes microgranulados de Córdoba',
@@ -112,7 +113,7 @@ const destacados = await getDestacados();
       <div class="crop-paths__grid">
         {
           TIPOS_CULTIVO.map((tipo) => (
-            <a class="crop-path" href={`/cultivos/${tipo.id}s`}>
+            <a class="crop-path" href={url(`/cultivos/${tipo.id}s`)}>
               <h3>{tipo.plural}</h3>
               <p>{tipo.descripcion}</p>
               <span>Ver cultivos →</span>
@@ -145,7 +146,7 @@ const destacados = await getDestacados();
               descripcion="Llamanos a la zona que te corresponde o escribinos por WhatsApp. También podés usar el formulario."
             />
             <SalesContacts zonas={contacto.telefonos} />
-            <a class="btn btn-brand" href="/contacto">Ir al formulario</a>
+            <a class="btn btn-brand" href={url('/contacto')}>Ir al formulario</a>
           </div>
           <ContactInfoCard contactos={contacto} />
         </div>

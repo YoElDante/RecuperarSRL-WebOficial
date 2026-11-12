@@ -7,13 +7,14 @@
 import { Image } from 'astro:assets';
 import type { Cultivo } from '../../lib/crops';
 import { getCropImage } from '../../lib/assets';
+import { url } from '../../lib/urls';
 
 interface Props {
   cultivo: Cultivo;
 }
 const { cultivo } = Astro.props;
 const imagen = getCropImage(cultivo.slug);
-const href = `/cultivos/${cultivo.slug}/`;
+const href = url(`/cultivos/${cultivo.slug}/`);
 ---
 
 <a class="crop-card" href={href}>

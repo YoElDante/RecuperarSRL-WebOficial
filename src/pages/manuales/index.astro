@@ -10,6 +10,7 @@ import SectionTitle from '../../components/primitives/SectionTitle.astro';
 import { getAllDownloads } from '../../lib/products';
 import { getLineaLabel } from '../../lib/taxonomy';
 import { buildMeta } from '../../lib/seo';
+import { url } from '../../lib/urls';
 
 const descargas = await getAllDownloads();
 
@@ -71,7 +72,7 @@ const meta = buildMeta({
               Las fichas técnicas y manuales están en proceso de compresión para mantener el sitio
               liviano. Mientras tanto, pedilas desde el formulario de contacto y te las enviamos.
             </p>
-            <a class="btn btn-primary" href="/contacto#formulario">Solicitar documentación</a>
+            <a class="btn btn-primary" href={url('/contacto#formulario')}>Solicitar documentación</a>
           </div>
         )
       }

@@ -11,6 +11,7 @@ import CTABand from '../../components/primitives/CTABand.astro';
 import { getCropsByTipo } from '../../lib/crops';
 import { getContacto } from '../../lib/site';
 import { buildMeta } from '../../lib/seo';
+import { url } from '../../lib/urls';
 
 const cultivos = await getCropsByTipo('extensivo');
 const contacto = await getContacto();
@@ -37,7 +38,7 @@ const meta = buildMeta({
         {cultivos.map((cultivo) => <CropCard cultivo={cultivo} />)}
       </CardGrid>
       <p class="cross-link">
-        ¿Buscás cultivos intensivos? <a href="/cultivos/intensivos">Ver intensivos →</a>
+        ¿Buscás cultivos intensivos? <a href={url('/cultivos/intensivos')}>Ver intensivos →</a>
       </p>
     </div>
   </section>

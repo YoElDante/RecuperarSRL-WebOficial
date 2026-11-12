@@ -9,6 +9,7 @@ import { Image } from 'astro:assets';
 import type { Producto } from '../../lib/products';
 import { getProductImage } from '../../lib/assets';
 import { getLineaLabel } from '../../lib/taxonomy';
+import { url } from '../../lib/urls';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -17,7 +18,7 @@ interface Props {
 }
 const { producto, mostrarLinea = false } = Astro.props;
 const imagen = getProductImage(producto.slug);
-const href = `/productos/${producto.slug}/`;
+const href = url(`/productos/${producto.slug}/`);
 ---
 
 <article class="product-card">

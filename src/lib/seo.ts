@@ -5,7 +5,13 @@
  * description, canonical and Open Graph tags. JSON-LD Organization is emitted
  * once per page from the official contact data.
  */
-export const SITE_ORIGIN = 'https://www.recuperarsrl.com.ar';
+
+/* Astro's configured `site`, reduced to its origin (no trailing path). */
+import { url } from './urls';
+
+export const SITE_ORIGIN = new URL(
+  import.meta.env.SITE ?? 'https://www.recuperarsrl.com.ar',
+).origin;
 
 export interface Meta {
   title: string;
@@ -15,9 +21,9 @@ export interface Meta {
   noindex?: boolean;
 }
 
-/* Build an absolute URL from a site-relative path. */
+/* Build an absolute URL from a site-relative path, honoring the deploy base. */
 export function absoluteUrl(path: string): string {
-  return new URL(path, SITE_ORIGIN).toString();
+  return new URL(url(path), SITE_ORIGIN).toString();
 }
 
 /* Assemble page metadata with sensible defaults. */

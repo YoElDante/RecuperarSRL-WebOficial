@@ -5,6 +5,7 @@
  *  2) no document -> "Solicitar desde Contacto" fallback (never a dead link).
  */
 import Icon from '../primitives/Icon.astro';
+import { url } from '../../lib/urls';
 
 export interface DocumentoRef {
   url: string;
@@ -37,7 +38,7 @@ const etiqueta = tipo === 'ficha' ? 'Ficha técnica' : 'Manual de uso';
       </span>
     </a>
   ) : (
-    <a class="pdf-download pdf-download--empty" href="/contacto#formulario">
+    <a class="pdf-download pdf-download--empty" href={url('/contacto#formulario')}>
       <Icon name="mail" size={20} />
       <span class="pdf-download__text">
         <strong>{etiqueta}</strong>

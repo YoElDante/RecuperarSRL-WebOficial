@@ -7,6 +7,7 @@
 import type { NavItem } from '../../lib/site';
 import HeaderDropdown from './HeaderDropdown.astro';
 import MobileNav from './MobileNav.astro';
+import { url } from '../../lib/urls';
 
 interface Props {
   nav: NavItem[];
@@ -17,8 +18,8 @@ const { nav, actual = '' } = Astro.props;
 
 <header class="site-header" id="top">
   <div class="container site-header__inner">
-    <a class="brand" href="/" aria-label="RECUPERAR S.R.L. — Inicio">
-      <img src="/logo.svg" alt="RECUPERAR S.R.L." width="170" height="38" />
+    <a class="brand" href={url('/')} aria-label="RECUPERAR S.R.L. — Inicio">
+      <img src={url('/logo.svg')} alt="RECUPERAR S.R.L." width="170" height="38" />
     </a>
 
     <nav class="nav-desktop" aria-label="Navegación principal">
@@ -27,13 +28,17 @@ const { nav, actual = '' } = Astro.props;
           item.children ? (
             <HeaderDropdown item={item} actual={actual} />
           ) : (
-            <a class="nav-link" href={item.href} aria-current={actual === item.href ? 'page' : undefined}>
+            <a
+              class="nav-link"
+              href={item.href}
+              aria-current={url(actual) === item.href ? 'page' : undefined}
+            >
               {item.label}
             </a>
           ),
         )
       }
-      <a class="btn btn-primary nav-cta" href="/contacto">Contacto</a>
+      <a class="btn btn-primary nav-cta" href={url('/contacto')}>Contacto</a>
     </nav>
 
     <MobileNav nav={nav} actual={actual} />
