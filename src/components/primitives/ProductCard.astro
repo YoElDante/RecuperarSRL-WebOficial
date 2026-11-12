@@ -1,0 +1,146 @@
+---
+/*
+ * ProductCard — catalog card for one product.
+ * Shows the optimized bag photo when available, otherwise a typographic panel
+ * (no stock filler, no other product's photo). Amber top border is the family
+ * signature shared with LineCard.
+ */
+import { Image } from 'astro:assets';
+import type { Producto } from '../../lib/products';
+import { getProductImage } from '../../lib/assets';
+import { getLineaLabel } from '../../lib/taxonomy';
+import Icon from './Icon.astro';
+
+interface Props {
+  producto: Producto;
+  mostrarLinea?: boolean;
+}
+const { producto, mostrarLinea = false } = Astro.props;
+const imagen = getProductImage(producto.slug);
+const href = `/productos/${producto.slug}/`;
+---
+
+<article class="product-card">
+  <div class="product-card__media">
+    {
+      imagen ? (
+        <Image
+          src={imagen}
+          alt=""
+          widths={[240, 400, 600]}
+          sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+          class="product-card__img"
+          loading="lazy"
+        />
+      ) : (
+        <span class="product-card__placeholder">{producto.nombre}</span>
+      )
+    }
+  </div>
+  <div class="product-card__body">
+    {mostrarLinea && <span class="product-card__line">{getLineaLabel(producto.linea)}</span>}
+    <h3 class="product-card__title">
+      <a href={href}>{producto.nombre}</a>
+    </h3>
+    <p class="product-card__resumen">{producto.resumen}</p>
+    {producto.composicion && <p class="product-card__comp">{producto.composicion}</p>}
+    <a class="product-card__cta" href={href}>
+      Ver ficha
+      <Icon name="arrow-right" size={15} />
+    </a>
+  </div>
+</article>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent-fill);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-1);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+  }
+  .product-card__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    padding: var(--space-4);
+    background: var(--surface-alt);
+    text-decoration: none;
+  }
+  .product-card__img {
+    max-height: 200px;
+    width: auto;
+    object-fit: contain;
+  }
+  .product-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-4);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--brand-700);
+    background: var(--brand-50);
+    border-radius: var(--radius);
+    width: 100%;
+    height: 100%;
+  }
+  .product-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    flex-grow: 1;
+  }
+  .product-card__line {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-text);
+  }
+  .product-card__title {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  .product-card__title a {
+    text-decoration: none;
+    color: var(--brand-900);
+  }
+  .product-card__resumen {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    flex-grow: 1;
+  }
+  .product-card__comp {
+    margin: 0;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+  }
+  .product-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--brand-600);
+    text-decoration: none;
+  }
+</style>

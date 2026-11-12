@@ -1,0 +1,88 @@
+---
+/*
+ * ContactForm — static, backend-free contact form.
+ * Posts directly to a form provider (Formspree or Web3Forms) from the HTML, so
+ * it works with JavaScript disabled. Anti-spam is a honeypot plus a required
+ * consent checkbox; the provider name decides the honeypot field.
+ */
+import ContactField from './ContactField.astro';
+
+interface Props {
+  endpoint: string;
+  proveedor: 'formspree' | 'web3forms';
+  privacidadTexto: string;
+  compacto?: boolean;
+}
+const { endpoint, proveedor, privacidadTexto, compacto = false } = Astro.props;
+
+/* Field name expected by each provider for the hidden honeypot. */
+const honeypot = proveedor === 'web3forms' ? 'botcheck' : '_gotcha';
+const areas = ['Núcleo', 'Mesopotamia', 'Centro y Norte', 'Administración', 'Otro'];
+---
+
+<form
+  class:list={['contact-form', { 'contact-form--compacto': compacto }]}
+  id="formulario"
+  action={endpoint}
+  method="POST"
+>
+  <ContactField name="nombre" label="Nombre y apellido" required />
+  <ContactField name="email" label="Email" type="email" required />
+  <ContactField name="telefono" label="Teléfono / WhatsApp" type="tel" />
+  <ContactField name="area" label="Área a consultar" options={areas} />
+  <ContactField
+    name="mensaje"
+    label="Mensaje"
+    textarea
+    required
+    minLength={10}
+    hint="Contanos qué cultivo y qué superficie estás planificando."
+  />
+
+  <div class="honeypot" aria-hidden="true">
+    <label for={honeypot}>No completar este campo</label>
+    <input id={honeypot} type="text" name={honeypot} tabindex="-1" autocomplete="off" />
+  </div>
+
+  <label class="consent">
+    <input type="checkbox" name="acepto" required />
+    <span>Acepto que mis datos se usen para responder esta consulta.</span>
+  </label>
+
+  <button class="btn btn-primary" type="submit">Enviar consulta</button>
+  <p class="contact-form__privacy">{privacidadTexto}</p>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .contact-form--compacto {
+    gap: var(--space-3);
+  }
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .consent input {
+    width: auto;
+    margin-top: 3px;
+  }
+  .contact-form__privacy {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+</style>

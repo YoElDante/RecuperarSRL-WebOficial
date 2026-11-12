@@ -1,0 +1,72 @@
+---
+/*
+ * SalesContacts — phone table by sales zone.
+ * Reusable on the home and contact pages; data from ficha-empresa.md.
+ */
+interface Props {
+  zonas: Array<{ zona: string; telefono: string }>;
+}
+const { zonas } = Astro.props;
+const telHref = (telefono: string) => `tel:+54${telefono.replace(/\s+/g, '')}`;
+---
+
+<div class="sales-contacts__wrap">
+  <table class="sales-contacts">
+    <caption>Teléfonos de ventas por zona</caption>
+    <tbody>
+      {
+        zonas.map((zona) => (
+          <tr>
+            <th scope="row">{zona.zona}</th>
+            <td>
+              <a href={telHref(zona.telefono)}>{zona.telefono}</a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .sales-contacts__wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .sales-contacts {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .sales-contacts caption {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--brand-700);
+    border-bottom: 1px solid var(--border);
+  }
+  .sales-contacts th,
+  .sales-contacts td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .sales-contacts tr:last-child th,
+  .sales-contacts tr:last-child td {
+    border-bottom: 0;
+  }
+  .sales-contacts th {
+    width: 50%;
+    font-weight: 600;
+    color: var(--brand-700);
+    background: var(--brand-50);
+  }
+  .sales-contacts a {
+    color: var(--brand-600);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

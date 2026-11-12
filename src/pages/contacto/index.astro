@@ -1,0 +1,98 @@
+---
+/*
+ * Contacto — office data, sales phones by zone, static form and plant maps.
+ * Everything comes from the `contacto` content page, which mirrors
+ * docs/ficha-empresa.md. The form posts straight to the configured provider,
+ * so it works without JavaScript and without a backend.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import SectionTitle from '../../components/primitives/SectionTitle.astro';
+import ContactInfoCard from '../../components/domain/ContactInfoCard.astro';
+import ContactForm from '../../components/domain/ContactForm.astro';
+import SalesContacts from '../../components/domain/SalesContacts.astro';
+import PlantsMap from '../../components/domain/PlantsMap.astro';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: 'Contacto — RECUPERAR S.R.L.',
+  descripcion:
+    'Escribinos o llamá a ventas: oficina en Córdoba, teléfonos por zona, plantas en Córdoba y La Rioja.',
+  canonical: '/contacto',
+});
+---
+
+<BaseLayout meta={meta} actual="/contacto">
+  <Hero
+    variant="page"
+    kicker="Contacto"
+    titulo="Hablemos de tu cultivo"
+    bajada="Contanos qué estás planificando y te orientamos con el producto y la dosis adecuada."
+  />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="contact-grid__info">
+        {contacto && <ContactInfoCard contactos={contacto} />}
+        {contacto && <SalesContacts zonas={contacto.telefonos} />}
+      </div>
+
+      <div class="contact-grid__form">
+        <SectionTitle
+          eyebrow="Formulario"
+          titulo="Escribinos"
+          descripcion="Respondemos consultas comerciales y técnicas en horario de oficina."
+        />
+        {
+          contacto && (
+            <ContactForm
+              endpoint={contacto.formEndpoint}
+              proveedor={contacto.formProveedor}
+              privacidadTexto={contacto.privacidadTexto}
+            />
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <section class="section section--alt">
+        <div class="container">
+          <SectionTitle
+            eyebrow="Dónde estamos"
+            titulo="Oficina y plantas"
+            descripcion="Oficina comercial en Córdoba capital, planta industrial en Puerto Caroya y yacimiento propio en San Ramón, La Rioja."
+          />
+          <PlantsMap plantas={contacto.plantas} />
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .contact-grid__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .section--alt {
+    background: var(--surface-alt);
+  }
+  @media (min-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1.3fr;
+    }
+  }
+</style>

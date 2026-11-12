@@ -1,0 +1,44 @@
+---
+/*
+ * LineSection — one product line block with an anchor id for the index.
+ * The anchor is what the header dropdown and the product filter link to.
+ */
+import type { Linea } from '../../lib/taxonomy';
+import type { Producto } from '../../lib/products';
+import CardGrid from '../primitives/CardGrid.astro';
+import ProductCard from '../primitives/ProductCard.astro';
+
+interface Props {
+  linea: Linea;
+  productos: Producto[];
+}
+const { linea, productos } = Astro.props;
+---
+
+<section class="line-section" id={`linea-${linea.id}`}>
+  <div class="line-section__head">
+    <h2>{linea.label}</h2>
+    <p>{linea.descripcion}</p>
+  </div>
+  <CardGrid columnas={4}>
+    {productos.map((producto) => <ProductCard producto={producto} />)}
+  </CardGrid>
+</section>
+
+<style>
+  .line-section {
+    scroll-margin-top: calc(var(--header-h) + var(--space-4));
+    padding-block: var(--space-6);
+    border-bottom: 1px solid var(--border);
+  }
+  .line-section__head {
+    margin-bottom: var(--space-5);
+  }
+  .line-section__head h2 {
+    margin-bottom: var(--space-1);
+  }
+  .line-section__head p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+</style>

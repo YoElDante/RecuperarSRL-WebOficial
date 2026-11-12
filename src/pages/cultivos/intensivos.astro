@@ -1,0 +1,63 @@
+---
+/*
+ * Cultivos intensivos — grid of the 3 intensive crops.
+ * Cross-links back to the extensive path.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import CardGrid from '../../components/primitives/CardGrid.astro';
+import CropCard from '../../components/primitives/CropCard.astro';
+import CTABand from '../../components/primitives/CTABand.astro';
+import { getCropsByTipo } from '../../lib/crops';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+const cultivos = await getCropsByTipo('intensivo');
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: 'Cultivos intensivos — RECUPERAR S.R.L.',
+  descripcion:
+    'Recomendaciones de fertilización y bioestimulación para tomate, hortalizas, frutales, cítricos y papas.',
+  canonical: '/cultivos/intensivos',
+});
+---
+
+<BaseLayout meta={meta} actual="/cultivos/intensivos">
+  <Hero
+    variant="page"
+    kicker="Cultivos"
+    titulo="Cultivos intensivos"
+    bajada="Tomate, hortalizas y papas: nutrición de precisión y bioestimulación para producciones intensivas."
+  />
+
+  <section class="section">
+    <div class="container">
+      <CardGrid columnas={3}>
+        {cultivos.map((cultivo) => <CropCard cultivo={cultivo} />)}
+      </CardGrid>
+      <p class="cross-link">
+        ¿Buscás cultivos extensivos? <a href="/cultivos/extensivos">Ver extensivos →</a>
+      </p>
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿Tenés un cultivo intensivo en producción?"
+        texto="Te asesoramos en bioestimulación y nutrición por etapas."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>
+
+<style>
+  .cross-link {
+    margin-top: var(--space-6);
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+/*
+ * ContactField — a labelled form control (input, textarea or select).
+ * Generates ids, required markers and the aria-describedby hint link.
+ */
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel';
+  required?: boolean;
+  hint?: string;
+  options?: string[];
+  textarea?: boolean;
+  minLength?: number;
+}
+const {
+  name,
+  label,
+  type = 'text',
+  required = false,
+  hint,
+  options,
+  textarea = false,
+  minLength,
+} = Astro.props;
+const id = `field-${name}`;
+const hintId = hint ? `${id}-hint` : undefined;
+---
+
+<div class="contact-field">
+  <label for={id}>
+    {label}
+    {required && <span class="contact-field__required" aria-hidden="true">*</span>}
+  </label>
+
+  {
+    options ? (
+      <select id={id} name={name} required={required} aria-describedby={hintId}>
+        <option value="">Seleccioná una opción</option>
+        {options.map((option) => (
+          <option value={option}>{option}</option>
+        ))}
+      </select>
+    ) : textarea ? (
+      <textarea
+        id={id}
+        name={name}
+        required={required}
+        minlength={minLength}
+        rows="5"
+        aria-describedby={hintId}
+      />
+    ) : (
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        minlength={minLength}
+        aria-describedby={hintId}
+      />
+    )
+  }
+
+  {hint && <p class="contact-field__hint" id={hintId}>{hint}</p>}
+</div>
+
+<style>
+  .contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand-900);
+  }
+  .contact-field__required {
+    color: var(--danger);
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--brand-500);
+  }
+  .contact-field__hint {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+</style>

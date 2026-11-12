@@ -1,0 +1,226 @@
+---
+/*
+ * Home — the full landing composition.
+ *
+ * Section order follows the PronoAgro rhythm: typographic hero, differentiator
+ * strip, product-line grid, company band, verifiable stats, crop paths, a
+ * conversion band and a contact teaser. All copy comes from the `site`
+ * collection; all counts come from the real catalog.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/primitives/Hero.astro';
+import SectionTitle from '../components/primitives/SectionTitle.astro';
+import CardGrid from '../components/primitives/CardGrid.astro';
+import LineCard from '../components/primitives/LineCard.astro';
+import ProductCard from '../components/primitives/ProductCard.astro';
+import DifferentialStrip from '../components/primitives/DifferentialStrip.astro';
+import MediaBand from '../components/primitives/MediaBand.astro';
+import StatsStrip from '../components/primitives/StatsStrip.astro';
+import CTABand from '../components/primitives/CTABand.astro';
+import ContactInfoCard from '../components/domain/ContactInfoCard.astro';
+import SalesContacts from '../components/domain/SalesContacts.astro';
+import { getHome, getContacto } from '../lib/site';
+import { getLineasConConteo, getDestacados } from '../lib/products';
+import { TIPOS_CULTIVO } from '../lib/taxonomy';
+import { buildMeta } from '../lib/seo';
+
+const meta = buildMeta({
+  titulo: 'RECUPERAR S.R.L. — Fertilizantes microgranulados de Córdoba',
+  descripcion:
+    'Fertilizantes microgranulados, mezclas químicas y correctores para el agro. Cantera propia, I+D nacional y 16 productos en 5 líneas.',
+  canonical: '/',
+});
+
+const home = await getHome();
+const contacto = await getContacto();
+const lineas = await getLineasConConteo();
+const destacados = await getDestacados();
+---
+
+<BaseLayout meta={meta} actual="/">
+  {
+    home && (
+      <Hero
+        variant="home"
+        kicker={home.hero.kicker}
+        titulo={home.hero.titulo}
+        bajada={home.hero.bajada}
+        acciones={[
+          { label: 'Conocé los productos', href: '/productos', variant: 'primary' },
+          { label: 'La empresa', href: '/la-empresa', variant: 'outline' },
+        ]}
+      />
+    )
+  }
+
+  {home && <DifferentialStrip items={home.diferenciales} />}
+
+  <section class="section">
+    <div class="container">
+      <SectionTitle
+        eyebrow="Nuestras líneas"
+        titulo="Cinco líneas, una misma lógica de eficiencia"
+        descripcion="Desde el arranque del cultivo hasta la corrección del suelo, cada producto resuelve un problema concreto del productor."
+      />
+      <CardGrid columnas={3}>
+        {lineas.map((linea) => <LineCard linea={linea} cantidad={linea.cantidad} />)}
+      </CardGrid>
+    </div>
+  </section>
+
+  {
+    home && (
+      <MediaBand
+        titulo={home.bandaEmpresa.titulo}
+        texto={home.bandaEmpresa.texto}
+        items={home.bandaEmpresa.items}
+        accion={{ label: 'Conocé la empresa', href: '/la-empresa' }}
+        tono="oscuro"
+      />
+    )
+  }
+
+  {home && <StatsStrip items={home.stats} />}
+
+  {
+    destacados.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionTitle
+            eyebrow="Destacados"
+            titulo="Los productos que más nos piden"
+            descripcion="Una selección del catálogo, con su composición y presentaciones disponibles."
+            align="center"
+          />
+          <CardGrid columnas={4}>
+            {destacados.slice(0, 8).map((producto) => (
+              <ProductCard producto={producto} mostrarLinea />
+            ))}
+          </CardGrid>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section crop-paths">
+    <div class="container">
+      <SectionTitle
+        eyebrow="Por cultivo"
+        titulo="Encontrá tu producto según el cultivo"
+        descripcion="El mismo catálogo, ordenado por lo que el productor tiene en el lote."
+      />
+      <div class="crop-paths__grid">
+        {
+          TIPOS_CULTIVO.map((tipo) => (
+            <a class="crop-path" href={`/cultivos/${tipo.id}s`}>
+              <h3>{tipo.plural}</h3>
+              <p>{tipo.descripcion}</p>
+              <span>Ver cultivos →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    home && home.ctaBands[0] && contacto && (
+      <CTABand
+        titulo={home.ctaBands[0].titulo}
+        texto={home.ctaBands[0].texto}
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+
+  {
+    contacto && (
+      <section class="section">
+        <div class="container contact-teaser">
+          <div class="contact-teaser__form">
+            <SectionTitle
+              eyebrow="Contacto"
+              titulo="Hablemos de tu próximo ciclo"
+              descripcion="Llamanos a la zona que te corresponde o escribinos por WhatsApp. También podés usar el formulario."
+            />
+            <SalesContacts zonas={contacto.telefonos} />
+            <a class="btn btn-brand" href="/contacto">Ir al formulario</a>
+          </div>
+          <ContactInfoCard contactos={contacto} />
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .crop-paths {
+    background: var(--surface-alt);
+  }
+  .crop-paths__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+  .crop-path {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--brand-500);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .crop-path:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+    color: var(--text);
+  }
+  .crop-path h3 {
+    margin: 0;
+  }
+  .crop-path p {
+    margin: 0;
+    color: var(--text-muted);
+    flex-grow: 1;
+  }
+  .crop-path span {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--brand-600);
+  }
+  .contact-teaser {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .contact-teaser__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+  .contact-teaser__form .btn {
+    margin-top: var(--space-2);
+  }
+  @media (min-width: 768px) {
+    .crop-paths__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .contact-teaser {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+</style>

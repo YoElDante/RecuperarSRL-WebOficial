@@ -1,0 +1,73 @@
+---
+/*
+ * ¿Qué Hacemos? — processes and capabilities page.
+ * Hero + numbered process list + company band + CTA.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/primitives/Hero.astro';
+import SectionTitle from '../components/primitives/SectionTitle.astro';
+import FeatureList from '../components/primitives/FeatureList.astro';
+import MediaBand from '../components/primitives/MediaBand.astro';
+import CTABand from '../components/primitives/CTABand.astro';
+import { getPagina, getHome, getContacto } from '../lib/site';
+import { buildMeta } from '../lib/seo';
+
+const meta = buildMeta({
+  titulo: '¿Qué Hacemos? — RECUPERAR S.R.L.',
+  descripcion:
+    'Microgranulación, mezclas químicas, pelletizado y tratamiento de minerales. Equipamiento industrial y plantas llave en mano.',
+  canonical: '/que-hacemos',
+});
+
+const queHacemos = await getPagina('que-hacemos');
+const home = await getHome();
+const contacto = await getContacto();
+---
+
+<BaseLayout meta={meta} actual="/que-hacemos">
+  <Hero
+    variant="page"
+    kicker="¿Qué Hacemos?"
+    titulo={queHacemos?.titulo ?? '¿Qué Hacemos?'}
+    bajada={queHacemos?.intro}
+  />
+
+  {
+    queHacemos && (
+      <section class="section">
+        <div class="container">
+          <SectionTitle
+            eyebrow="Nuestros procesos"
+            titulo="Del mineral al producto final"
+            descripcion="Controlamos la cadena de valor: investigación, formulación, producción y tecnología industrial."
+          />
+          <FeatureList items={queHacemos.secciones} columnas={2} numerado />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    home && (
+      <MediaBand
+        titulo={home.bandaEmpresa.titulo}
+        texto={home.bandaEmpresa.texto}
+        items={home.bandaEmpresa.items}
+        accion={{ label: 'Ver líneas de producto', href: '/productos' }}
+        tono="oscuro"
+        invertida
+      />
+    )
+  }
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿Necesitás tecnología o una planta llave en mano?"
+        texto="Contanos tu proyecto y te asesoramos sin compromiso."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+/*
+ * Contacto / gracias — confirmation page after the static form submits.
+ * The form provider redirects here, so the page must be noindex and must offer
+ * a way back into the catalog and to WhatsApp.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import CTABand from '../../components/primitives/CTABand.astro';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: 'Gracias por escribirnos — RECUPERAR S.R.L.',
+  descripcion: 'Recibimos tu consulta y te vamos a responder a la brevedad.',
+  canonical: '/contacto/gracias',
+  noindex: true,
+});
+---
+
+<BaseLayout meta={meta} actual="/contacto">
+  <Hero
+    variant="page"
+    kicker="Consulta recibida"
+    titulo="Gracias por escribirnos"
+    bajada="Recibimos tu mensaje. Un asesor de ventas te va a responder en horario de oficina."
+    acciones={[
+      { label: 'Ver productos', href: '/productos', variant: 'primary' },
+      { label: 'Volver al inicio', href: '/', variant: 'outline' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container container-narrow">
+      <p>
+        Si tu consulta es urgente, podés escribirnos por WhatsApp o llamar directamente a la zona
+        que te corresponde.
+      </p>
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿Necesitás una respuesta más rápida?"
+        texto="Escribinos por WhatsApp y te atendemos en el momento."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Volver a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>

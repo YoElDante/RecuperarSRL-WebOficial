@@ -1,0 +1,90 @@
+---
+/*
+ * LineCard — card for one product line, with its real product count.
+ * PronoAgro signature: 4px amber top border and the CTA anchored to the bottom.
+ */
+import type { Linea } from '../../lib/taxonomy';
+import Icon from './Icon.astro';
+
+interface Props {
+  linea: Linea;
+  cantidad: number;
+}
+const { linea, cantidad } = Astro.props;
+---
+
+<a class="line-card" href={`/productos#linea-${linea.id}`}>
+  <span class="line-card__icon">
+    <Icon name={linea.icono} size={30} />
+  </span>
+  <h3>{linea.label}</h3>
+  <p>{linea.descripcion}</p>
+  <span class="line-card__count">
+    {cantidad} {cantidad === 1 ? 'producto' : 'productos'}
+  </span>
+  <span class="line-card__cta">
+    Ver productos
+    <Icon name="arrow-right" size={16} />
+  </span>
+</a>
+
+<style>
+  .line-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent-fill);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .line-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+    color: var(--text);
+  }
+  .line-card__icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-50);
+    color: var(--brand-600);
+    border-radius: var(--radius);
+  }
+  .line-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .line-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    flex-grow: 1;
+  }
+  .line-card__count {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-text);
+  }
+  .line-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--brand-600);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+</style>

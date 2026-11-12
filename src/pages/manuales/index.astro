@@ -1,0 +1,110 @@
+---
+/*
+ * Manuales — index of every declared downloadable document.
+ * If no PDFs are declared yet, it shows an honest empty state that points to
+ * the contact form, instead of rendering dead links.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import SectionTitle from '../../components/primitives/SectionTitle.astro';
+import { getAllDownloads } from '../../lib/products';
+import { getLineaLabel } from '../../lib/taxonomy';
+import { buildMeta } from '../../lib/seo';
+
+const descargas = await getAllDownloads();
+
+const meta = buildMeta({
+  titulo: 'Manuales de uso — RECUPERAR S.R.L.',
+  descripcion:
+    'Fichas técnicas y manuales de uso de los productos de RECUPERAR S.R.L.',
+  canonical: '/manuales',
+});
+---
+
+<BaseLayout meta={meta} actual="/manuales">
+  <Hero
+    variant="page"
+    kicker="Documentación"
+    titulo="Manuales y fichas técnicas"
+    bajada="Descargá la documentación de cada producto. Si una ficha no está disponible, podés solicitarla desde contacto."
+  />
+
+  <section class="section">
+    <div class="container">
+      <SectionTitle eyebrow="Descargas" titulo="Documentación disponible" />
+      {
+        descargas.length > 0 ? (
+          <div class="downloads">
+            <table class="downloads__table">
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Línea</th>
+                  <th scope="col">Documento</th>
+                  <th scope="col">Descarga</th>
+                </tr>
+              </thead>
+              <tbody>
+                {descargas.map((row) => (
+                  <tr>
+                    <td>{row.producto}</td>
+                    <td>{getLineaLabel(row.linea)}</td>
+                    <td>{row.tipo === 'ficha' ? 'Ficha técnica' : 'Manual de uso'}</td>
+                    <td>
+                      <a
+                        href={row.url}
+                        target={row.externo ? '_blank' : undefined}
+                        rel={row.externo ? 'noopener' : undefined}
+                        download={row.externo ? undefined : true}
+                      >
+                        Descargar{row.pesoKb ? ` (${row.pesoKb} KB)` : ''}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div class="empty-state">
+            <p>
+              Las fichas técnicas y manuales están en proceso de compresión para mantener el sitio
+              liviano. Mientras tanto, pedilas desde el formulario de contacto y te las enviamos.
+            </p>
+            <a class="btn btn-primary" href="/contacto#formulario">Solicitar documentación</a>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .downloads__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .downloads__table th,
+  .downloads__table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .downloads__table thead th {
+    background: var(--brand-50);
+    color: var(--brand-700);
+    font-weight: 600;
+  }
+  .empty-state {
+    max-width: 60ch;
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-fill);
+    border-radius: var(--radius);
+  }
+</style>

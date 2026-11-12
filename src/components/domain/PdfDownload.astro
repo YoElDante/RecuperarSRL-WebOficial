@@ -1,0 +1,84 @@
+---
+/*
+ * PdfDownload — download card with two valid states:
+ *  1) document declared -> real download link with size;
+ *  2) no document -> "Solicitar desde Contacto" fallback (never a dead link).
+ */
+import Icon from '../primitives/Icon.astro';
+
+export interface DocumentoRef {
+  url: string;
+  externo?: boolean;
+  pesoKb?: number;
+}
+
+interface Props {
+  tipo: 'ficha' | 'manual';
+  producto: { slug: string; nombre: string };
+  documento?: DocumentoRef;
+}
+const { tipo, producto, documento } = Astro.props;
+const etiqueta = tipo === 'ficha' ? 'Ficha técnica' : 'Manual de uso';
+---
+
+{
+  documento ? (
+    <a
+      class="pdf-download"
+      href={documento.url}
+      target={documento.externo ? '_blank' : undefined}
+      rel={documento.externo ? 'noopener' : undefined}
+      download={documento.externo ? undefined : true}
+    >
+      <Icon name="download" size={20} />
+      <span class="pdf-download__text">
+        <strong>{etiqueta}</strong>
+        <small>{documento.pesoKb ? `${documento.pesoKb} KB` : `${producto.nombre}.pdf`}</small>
+      </span>
+    </a>
+  ) : (
+    <a class="pdf-download pdf-download--empty" href="/contacto#formulario">
+      <Icon name="mail" size={20} />
+      <span class="pdf-download__text">
+        <strong>{etiqueta}</strong>
+        <small>Solicitar desde Contacto</small>
+      </span>
+    </a>
+  )
+}
+
+<style>
+  .pdf-download {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brand-500);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .pdf-download:hover {
+    box-shadow: var(--shadow-2);
+    transform: translateY(-1px);
+    color: var(--text);
+  }
+  .pdf-download--empty {
+    border-left-color: var(--accent-fill);
+  }
+  .pdf-download__text {
+    display: flex;
+    flex-direction: column;
+  }
+  .pdf-download__text strong {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+  }
+  .pdf-download__text small {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+</style>

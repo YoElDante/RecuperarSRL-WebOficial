@@ -1,0 +1,57 @@
+---
+/*
+ * 404 — not found page, generated as dist/404.html by Astro.
+ * Keeps the shell so the visitor can recover from any broken link, and marks
+ * the page noindex because it must never appear in search results.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/primitives/Hero.astro';
+import CTABand from '../components/primitives/CTABand.astro';
+import CardGrid from '../components/primitives/CardGrid.astro';
+import LineCard from '../components/primitives/LineCard.astro';
+import { getLineasConConteo } from '../lib/products';
+import { getContacto } from '../lib/site';
+import { buildMeta } from '../lib/seo';
+
+const lineas = await getLineasConConteo();
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: 'Página no encontrada — RECUPERAR S.R.L.',
+  descripcion: 'La página que buscás no existe o cambió de dirección.',
+  canonical: '/404',
+  noindex: true,
+});
+---
+
+<BaseLayout meta={meta} actual="">
+  <Hero
+    variant="page"
+    kicker="Error 404"
+    titulo="No encontramos esa página"
+    bajada="Puede haber cambiado de dirección. Probá desde el catálogo o volvé al inicio."
+    acciones={[
+      { label: 'Volver al inicio', href: '/', variant: 'primary' },
+      { label: 'Ver productos', href: '/productos', variant: 'outline' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <CardGrid columnas={3}>
+        {lineas.map((linea) => <LineCard linea={linea} cantidad={linea.cantidad} />)}
+      </CardGrid>
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿Buscabas algo puntual?"
+        texto="Escribinos y te indicamos dónde encontrarlo."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,92 @@
+---
+/*
+ * Crop detail — /cultivos/[slug]/
+ * Shows the products recommended for one crop, via the reverse lookup on the
+ * products collection. Links go to the very same product detail page as the
+ * "by line" path.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import SectionTitle from '../../components/primitives/SectionTitle.astro';
+import CardGrid from '../../components/primitives/CardGrid.astro';
+import ProductCard from '../../components/primitives/ProductCard.astro';
+import CTABand from '../../components/primitives/CTABand.astro';
+import { getAllCrops } from '../../lib/crops';
+import { getByCultivo } from '../../lib/products';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+/* One static page per crop. */
+export async function getStaticPaths() {
+  const cultivos = await getAllCrops();
+  return cultivos.map((cultivo) => ({
+    params: { slug: cultivo.slug },
+    props: { cultivo },
+  }));
+}
+
+const { cultivo } = Astro.props;
+const productos = await getByCultivo(cultivo.slug);
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: `${cultivo.nombre} — RECUPERAR S.R.L.`,
+  descripcion: cultivo.resumen,
+  canonical: `/cultivos/${cultivo.slug}/`,
+});
+---
+
+<BaseLayout meta={meta} actual="/cultivos">
+  <Hero
+    variant="page"
+    kicker={cultivo.tipo === 'extensivo' ? 'Cultivo extensivo' : 'Cultivo intensivo'}
+    titulo={cultivo.nombre}
+    bajada={cultivo.resumen}
+  />
+
+  <section class="section">
+    <div class="container">
+      <SectionTitle
+        eyebrow="Recomendación"
+        titulo={
+          productos.length > 0
+            ? `${productos.length} ${productos.length === 1 ? 'producto recomendado' : 'productos recomendados'}`
+            : 'Recomendación en preparación'
+        }
+        descripcion={
+          productos.length > 0
+            ? 'Los productos que acompañan la nutrición de este cultivo. Abren la misma ficha que por la vía de producto.'
+            : 'Estamos ampliando las recomendaciones para este cultivo. Consultanos y te orientamos.'
+        }
+      />
+      {
+        productos.length > 0 ? (
+          <CardGrid columnas={4}>
+            {productos.map((producto) => <ProductCard producto={producto} mostrarLinea />)}
+          </CardGrid>
+        ) : (
+          <p class="empty">
+            Todavía no hay productos asociados a este cultivo. <a href="/contacto">Consultanos</a>.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <CTABand
+        titulo={`¿Querés asesoramiento para ${cultivo.nombre}?`}
+        texto="Hablá con un asesor y armemos el plan de fertilización."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>
+
+<style>
+  .empty {
+    color: var(--text-muted);
+  }
+</style>

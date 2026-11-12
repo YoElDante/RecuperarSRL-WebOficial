@@ -1,0 +1,73 @@
+---
+/*
+ * FeatureList — bulleted or numbered list of features / process steps.
+ * Used for differentials, technologies and step-by-step processes.
+ */
+interface Feature {
+  titulo: string;
+  texto?: string;
+}
+interface Props {
+  items: Feature[];
+  columnas?: 2 | 3;
+  numerado?: boolean;
+}
+const { items, columnas = 2, numerado = false } = Astro.props;
+---
+
+<ol class:list={['feature-list', `feature-list--${columnas}`, { 'feature-list--numbered': numerado }]}>
+  {
+    items.map((item, index) => (
+      <li>
+        {numerado && <span class="feature-list__index">{String(index + 1).padStart(2, '0')}</span>}
+        <div>
+          <h3>{item.titulo}</h3>
+          {item.texto && <p>{item.texto}</p>}
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+  .feature-list li {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--surface);
+    border-left: 3px solid var(--brand-100);
+    border-radius: var(--radius);
+  }
+  .feature-list h3 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.05rem;
+  }
+  .feature-list p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .feature-list__index {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--accent-text);
+    line-height: 1;
+  }
+  @media (min-width: 768px) {
+    .feature-list--2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .feature-list--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

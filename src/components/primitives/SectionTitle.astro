@@ -1,0 +1,69 @@
+---
+/*
+ * SectionTitle — section heading with the PronoAgro amber left bar.
+ * Supports an eyebrow, a description and an inverse variant for dark bands.
+ */
+interface Props {
+  titulo: string;
+  eyebrow?: string;
+  descripcion?: string;
+  id?: string;
+  align?: 'left' | 'center';
+  inverse?: boolean;
+}
+const { titulo, eyebrow, descripcion, id, align = 'left', inverse = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    'section-title',
+    { 'section-title--center': align === 'center', 'section-title--inverse': inverse },
+  ]}
+  id={id}
+>
+  {eyebrow && <p class="section-title__eyebrow">{eyebrow}</p>}
+  <h2>{titulo}</h2>
+  {descripcion && <p class="section-title__desc">{descripcion}</p>}
+</div>
+
+<style>
+  .section-title {
+    border-left: 4px solid var(--accent-fill);
+    padding-left: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .section-title h2 {
+    margin-bottom: 0;
+  }
+  .section-title__eyebrow {
+    margin: 0 0 var(--space-1);
+    color: var(--accent-text);
+    font-family: var(--font-display);
+    font-size: var(--fs-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .section-title__desc {
+    margin: var(--space-2) 0 0;
+    color: var(--text-muted);
+    max-width: 65ch;
+  }
+  .section-title--center {
+    border-left: 0;
+    padding-left: 0;
+    text-align: center;
+  }
+  .section-title--center .section-title__desc {
+    margin-inline: auto;
+  }
+  .section-title--inverse h2 {
+    color: #fff;
+  }
+  .section-title--inverse .section-title__eyebrow {
+    color: var(--accent-fill);
+  }
+  .section-title--inverse .section-title__desc {
+    color: var(--text-on-dark);
+  }
+</style>

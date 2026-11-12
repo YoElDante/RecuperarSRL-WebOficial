@@ -1,0 +1,42 @@
+---
+/*
+ * CardGrid — responsive grid wrapper for cards.
+ * Columns collapse gracefully: 1 on mobile, 2 on tablet, N on desktop.
+ */
+interface Props {
+  columnas?: 2 | 3 | 4 | 5;
+  class?: string;
+}
+const { columnas = 3, class: className = '' } = Astro.props;
+---
+
+<div class:list={['card-grid', `card-grid--${columnas}`, className]}>
+  <slot />
+</div>
+
+<style>
+  .card-grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .card-grid--2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .card-grid--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .card-grid--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .card-grid--5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+</style>

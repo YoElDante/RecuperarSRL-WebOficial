@@ -1,0 +1,78 @@
+---
+/*
+ * DifferentialStrip — replaces PronoAgro's "represented brands" strip.
+ * Recuperar is a manufacturer, not a distributor, so instead of third-party
+ * logos it shows its own differentiators.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  items: Array<{ titulo: string; texto: string }>;
+}
+const { items } = Astro.props;
+---
+
+<section class="differential-strip">
+  <div class="container differential-strip__grid">
+    {
+      items.map((item) => (
+        <div class="diff">
+          <span class="diff__icon">
+            <Icon name="check" size={20} />
+          </span>
+          <h3>{item.titulo}</h3>
+          <p>{item.texto}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .differential-strip {
+    background: var(--surface);
+    padding-block: var(--space-8);
+  }
+  .differential-strip__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+  .diff {
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--brand-500);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+  }
+  .diff__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--brand-500);
+    color: #fff;
+    margin-bottom: var(--space-3);
+  }
+  .diff h3 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.05rem;
+  }
+  .diff p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  @media (min-width: 640px) {
+    .differential-strip__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .differential-strip__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

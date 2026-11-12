@@ -1,0 +1,60 @@
+---
+/*
+ * ProductFilter — anchor bar to jump between the 5 product lines.
+ * Pure links, zero JavaScript; each anchor matches a LineSection id.
+ */
+interface Props {
+  lineas: Array<{ id: string; label: string; cantidad: number }>;
+}
+const { lineas } = Astro.props;
+---
+
+<nav class="product-filter" aria-label="Ir a una línea de productos">
+  {
+    lineas.map((linea) => (
+      <a href={`#linea-${linea.id}`}>
+        {linea.label}
+        <span class="product-filter__count">{linea.cantidad}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .product-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+  .product-filter a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--brand-700);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .product-filter a:hover {
+    border-color: var(--brand-500);
+    background: var(--brand-50);
+  }
+  .product-filter__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    background: var(--brand-500);
+    color: #fff;
+    border-radius: var(--radius);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+</style>

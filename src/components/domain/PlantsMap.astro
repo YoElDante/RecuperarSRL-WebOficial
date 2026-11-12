@@ -1,0 +1,80 @@
+---
+/*
+ * PlantsMap — one lazy-loaded map per plant, searched by address.
+ * No coordinates are invented: the embed uses the official address text and
+ * always offers a plain "open in Google Maps" link as fallback.
+ */
+interface Props {
+  plantas: Array<{ nombre: string; direccion: string }>;
+}
+const { plantas } = Astro.props;
+---
+
+<div class="plants-map">
+  {
+    plantas.map((planta) => {
+      const query = encodeURIComponent(planta.direccion);
+      return (
+        <div class="plant">
+          <h3>{planta.nombre}</h3>
+          <p>{planta.direccion}</p>
+          <iframe
+            src={`https://www.google.com/maps?q=${query}&output=embed`}
+            title={`Mapa de ${planta.nombre}`}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          />
+          <a
+            class="plant__link"
+            href={`https://www.google.com/maps/search/?api=1&query=${query}`}
+            target="_blank"
+            rel="noopener"
+          >
+            Ver en Google Maps
+          </a>
+        </div>
+      );
+    })
+  }
+</div>
+
+<style>
+  .plants-map {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+  .plant {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .plant h3 {
+    margin: var(--space-4) var(--space-4) var(--space-1);
+    font-size: 1.1rem;
+  }
+  .plant p {
+    margin: 0 var(--space-4) var(--space-3);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .plant iframe {
+    width: 100%;
+    height: 240px;
+    border: 0;
+    display: block;
+  }
+  .plant__link {
+    display: inline-block;
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--brand-600);
+  }
+  @media (min-width: 768px) {
+    .plants-map {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

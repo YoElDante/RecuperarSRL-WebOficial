@@ -1,0 +1,75 @@
+---
+/*
+ * La Empresa — institutional page.
+ * Hero + section list + company band + verifiable stats + CTA.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/primitives/Hero.astro';
+import SectionTitle from '../components/primitives/SectionTitle.astro';
+import FeatureList from '../components/primitives/FeatureList.astro';
+import MediaBand from '../components/primitives/MediaBand.astro';
+import StatsStrip from '../components/primitives/StatsStrip.astro';
+import CTABand from '../components/primitives/CTABand.astro';
+import { getPagina, getHome, getContacto } from '../lib/site';
+import { buildMeta } from '../lib/seo';
+
+const meta = buildMeta({
+  titulo: 'La Empresa — RECUPERAR S.R.L.',
+  descripcion:
+    'Empresa minera e industrial cordobesa, 100 % capitales nacionales. Primera fábrica argentina de fertilizantes microgranulados, con cantera propia e I+D.',
+  canonical: '/la-empresa',
+});
+
+const empresa = await getPagina('empresa');
+const home = await getHome();
+const contacto = await getContacto();
+---
+
+<BaseLayout meta={meta} actual="/la-empresa">
+  <Hero
+    variant="page"
+    kicker="La Empresa"
+    titulo={empresa?.titulo ?? 'La Empresa'}
+    bajada={empresa?.intro}
+  />
+
+  {
+    empresa && (
+      <section class="section">
+        <div class="container">
+          <SectionTitle
+            eyebrow="Quiénes somos"
+            titulo="Una empresa minera e industrial con historia"
+            descripcion="Desde 2000 trabajamos para que cada nutriente llegue en la forma y el momento en que el cultivo lo necesita."
+          />
+          <FeatureList items={empresa.secciones} columnas={2} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    home && (
+      <MediaBand
+        titulo={home.bandaEmpresa.titulo}
+        texto={home.bandaEmpresa.texto}
+        items={home.bandaEmpresa.items}
+        accion={{ label: 'Conocé los productos', href: '/productos' }}
+        tono="oscuro"
+      />
+    )
+  }
+
+  {home && <StatsStrip items={home.stats} />}
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿Querés conocer nuestra planta?"
+        texto="Coordinamos visitas y reuniones técnicas con productores y distribuidores."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>
