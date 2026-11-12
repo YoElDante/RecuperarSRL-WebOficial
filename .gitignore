@@ -1,11 +1,13 @@
 # Dependencies
 node_modules/
 
-# Raw product source material (images/PDFs inbox, not site code)
-productos/
+# Raw product source material (images/PDFs inbox, not site code).
+# Anchored to the repo root on purpose: an unanchored `productos/` would also
+# swallow src/pages/productos/, silently dropping the catalog routes.
+/productos/
 
 # Downloaded reference sites (inspiration only, never shipped)
-inspiraciones/
+/inspiraciones/
 
 # Build output
 dist/

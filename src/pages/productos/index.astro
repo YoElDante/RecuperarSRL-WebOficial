@@ -1,0 +1,55 @@
+---
+/*
+ * Productos — catalog index grouped by the 5 real business lines.
+ * The anchor filter and the header dropdown both land on the LineSection ids.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import ProductFilter from '../../components/domain/ProductFilter.astro';
+import LineSection from '../../components/domain/LineSection.astro';
+import CTABand from '../../components/primitives/CTABand.astro';
+import { getLineasConConteo, getByLinea } from '../../lib/products';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+const lineas = await getLineasConConteo();
+const grupos = await Promise.all(
+  lineas.map(async (linea) => ({ linea, productos: await getByLinea(linea.id) })),
+);
+const total = grupos.reduce((suma, grupo) => suma + grupo.productos.length, 0);
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: 'Productos — RECUPERAR S.R.L.',
+  descripcion:
+    'Catálogo de fertilizantes microgranulados, bioestimulantes, correctores de suelo, jardinería y mejoradores de eficiencia.',
+  canonical: '/productos',
+});
+---
+
+<BaseLayout meta={meta} actual="/productos">
+  <Hero
+    variant="page"
+    kicker="Catálogo"
+    titulo="Productos"
+    bajada={`${total} productos organizados en ${lineas.length} líneas. Elegí por línea o explorá por cultivo.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      <ProductFilter lineas={lineas} />
+      {grupos.map((grupo) => <LineSection linea={grupo.linea} productos={grupo.productos} />)}
+    </div>
+  </section>
+
+  {
+    contacto && (
+      <CTABand
+        titulo="¿No encontrás lo que buscás?"
+        texto="Escribinos y te ayudamos a elegir el producto adecuado para tu cultivo."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>

@@ -72,6 +72,36 @@ if (total > BUDGET_BYTES) {
   problems.push(`dist is ${(total / 1024 / 1024).toFixed(2)} MB, over the 20 MB budget`);
 }
 
+// 5. Critical routes must exist. A route directory can vanish from the build
+// without failing anything (e.g. excluded by a .gitignore pattern in CI), so the
+// deploy is gated on the routes the site cannot live without.
+const REQUIRED_ROUTES = [
+  'index.html',
+  '404.html',
+  'productos/index.html',
+  'cultivos/extensivos/index.html',
+  'cultivos/intensivos/index.html',
+  'la-empresa/index.html',
+  'que-hacemos/index.html',
+  'manuales/index.html',
+  'contacto/index.html',
+];
+for (const route of REQUIRED_ROUTES) {
+  if (!files.includes(path.join(dist, ...route.split('/')))) {
+    problems.push(`missing required route: ${route}`);
+  }
+}
+
+// 6. Every product page must be built: one index + one page per product.
+const productPages = htmlFiles.filter((file) =>
+  path.relative(dist, file).replace(/\\/g, '/').startsWith('productos/'),
+);
+if (productPages.length < 17) {
+  problems.push(
+    `only ${productPages.length} product pages built, expected at least 17 (index + 16 products)`,
+  );
+}
+
 console.log(`Checked ${htmlFiles.length} HTML files, ${files.length} files total.`);
 console.log(`dist size: ${(total / 1024 / 1024).toFixed(2)} MB / 20 MB`);
 

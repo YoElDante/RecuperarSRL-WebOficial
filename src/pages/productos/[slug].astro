@@ -1,0 +1,152 @@
+---
+/*
+ * Product detail — /productos/[slug]/
+ * Gallery + spec table + downloads + crops + related products. Reached from
+ * both the line catalog and the crop pages (same record, same page).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/primitives/Hero.astro';
+import SectionTitle from '../../components/primitives/SectionTitle.astro';
+import SpecTable from '../../components/primitives/SpecTable.astro';
+import PresentationGallery from '../../components/primitives/PresentationGallery.astro';
+import ProductCard from '../../components/primitives/ProductCard.astro';
+import CropCard from '../../components/primitives/CropCard.astro';
+import CardGrid from '../../components/primitives/CardGrid.astro';
+import PdfDownload from '../../components/domain/PdfDownload.astro';
+import CTABand from '../../components/primitives/CTABand.astro';
+import { getAllProducts, getRelacionados } from '../../lib/products';
+import { getCultivosDeProducto } from '../../lib/crops';
+import { getProductImage } from '../../lib/assets';
+import { getLineaLabel } from '../../lib/taxonomy';
+import { getContacto } from '../../lib/site';
+import { buildMeta } from '../../lib/seo';
+
+/* One static page per product. */
+export async function getStaticPaths() {
+  const productos = await getAllProducts();
+  return productos.map((producto) => ({
+    params: { slug: producto.slug },
+    props: { producto },
+  }));
+}
+
+const { producto } = Astro.props;
+const imagen = getProductImage(producto.slug);
+const cultivos = await getCultivosDeProducto(producto.cultivos);
+const relacionados = await getRelacionados(producto.slug, 4);
+const contacto = await getContacto();
+
+const meta = buildMeta({
+  titulo: `${producto.nombre} — RECUPERAR S.R.L.`,
+  descripcion: producto.resumen,
+  canonical: `/productos/${producto.slug}/`,
+});
+
+/* Spec rows rendered from the product record. */
+const filas = [
+  { etiqueta: 'Línea', valor: getLineaLabel(producto.linea) },
+  { etiqueta: 'Composición', valor: producto.composicion || 'Consultar ficha técnica' },
+  { etiqueta: 'Forma física', valor: producto.formaFisica },
+  { etiqueta: 'Mezcla química', valor: producto.mezclaQuimica ? 'Sí' : 'No' },
+  {
+    etiqueta: 'Presentaciones',
+    valor: producto.presentaciones.length > 0 ? producto.presentaciones.join(' · ') : 'Consultar',
+  },
+];
+---
+
+<BaseLayout meta={meta} actual="/productos">
+  <Hero
+    variant="page"
+    kicker={getLineaLabel(producto.linea)}
+    titulo={producto.nombre}
+    bajada={producto.resumen}
+  />
+
+  <section class="section">
+    <div class="container product-detail">
+      <div class="product-detail__media">
+        <PresentationGallery
+          producto={producto.nombre}
+          presentaciones={producto.presentaciones}
+          imagen={imagen}
+        />
+        <div class="product-detail__downloads">
+          <PdfDownload
+            tipo="ficha"
+            producto={{ slug: producto.slug, nombre: producto.nombre }}
+            documento={producto.fichaTecnica}
+          />
+          <PdfDownload
+            tipo="manual"
+            producto={{ slug: producto.slug, nombre: producto.nombre }}
+            documento={producto.manual}
+          />
+        </div>
+      </div>
+
+      <div class="product-detail__info">
+        <SectionTitle eyebrow="Datos del producto" titulo="Ficha técnica" />
+        <SpecTable filas={filas} />
+
+        {
+          cultivos.length > 0 && (
+            <div class="product-detail__crops">
+              <h2>Cultivos recomendados</h2>
+              <CardGrid columnas={3}>
+                {cultivos.map((cultivo) => <CropCard cultivo={cultivo} />)}
+              </CardGrid>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    relacionados.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionTitle eyebrow="Seguí explorando" titulo="Productos relacionados" />
+          <CardGrid columnas={4}>
+            {relacionados.map((relacionado) => <ProductCard producto={relacionado} mostrarLinea />)}
+          </CardGrid>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    contacto && (
+      <CTABand
+        titulo={`¿Querés asesoramiento sobre ${producto.nombre}?`}
+        texto="Hablá con un asesor de ventas y armemos juntos el plan para tu cultivo."
+        whatsapp={contacto.whatsapp}
+        accionSecundaria={{ label: 'Ir a contacto', href: '/contacto' }}
+      />
+    )
+  }
+</BaseLayout>
+
+<style>
+  .product-detail {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .product-detail__downloads {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+  .product-detail__crops {
+    margin-top: var(--space-6);
+  }
+  @media (min-width: 1024px) {
+    .product-detail {
+      grid-template-columns: 420px 1fr;
+    }
+  }
+</style>
