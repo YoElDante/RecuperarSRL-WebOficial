@@ -20,7 +20,7 @@
 ```
 web/
 ├── astro.config.mjs · tsconfig.json (strict) · package.json
-├── public/                       favicon.svg · robots.txt (referencia al sitemap)
+├── public/                       logo.webp · favicon.ico · robots.txt (generado)
 │   └── files/                    fichas/<slug>.pdf · manuales/<slug>.pdf
 └── src/
     ├── assets/

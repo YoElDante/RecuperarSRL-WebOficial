@@ -17,7 +17,7 @@ const { contacto } = Astro.props;
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="footer-col footer-col--brand">
-      <img src={url('/logo.svg')} alt="RECUPERAR S.R.L." width="160" height="36" loading="lazy" />
+      <img src={url('/logo.webp')} alt="RECUPERAR S.R.L." width="124" height="50" loading="lazy" />
       <p>
         Fertilizantes microgranulados, mezclas químicas y correctores para el agro.
         Córdoba, Argentina.
@@ -94,6 +94,15 @@ const { contacto } = Astro.props;
     line-height: 1.6;
     margin-top: var(--space-3);
     color: var(--text-on-dark);
+  }
+  /* Same light plate as the header: dark green mark on a dark green footer. */
+  .footer-col--brand img {
+    height: 46px;
+    width: auto;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 6px 10px;
+    box-sizing: content-box;
   }
   .footer-title {
     font-family: var(--font-display);

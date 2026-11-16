@@ -57,6 +57,7 @@ export function organizationJsonLd(contacto: OrganizationContacto) {
     '@type': 'Organization',
     name: 'RECUPERAR S.R.L.',
     url: SITE_ORIGIN,
+    logo: absoluteUrl('/logo.webp'),
     slogan: 'Soluciones eficientes para el máximo aprovechamiento de nutrientes',
     foundingDate: '2000',
     email: contacto.mails[0],
