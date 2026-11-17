@@ -1,13 +1,14 @@
 ---
 /*
  * Hero — typographic hero on deep brand green (PronoAgro language).
- * Optional background image keeps the same structure; without a photo it stays
- * a bold, text-led hero, which is the current v1 decision while the client
- * produces real photography.
+ * Optional background media keeps the same structure; without a photo it stays
+ * a bold, text-led hero. When both `imagen` and `video` are passed, the image
+ * becomes the poster of a background video that fades in once it plays.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
+import VideoBackdrop from './VideoBackdrop.astro';
 import { url } from '../../lib/urls';
 
 export interface Accion {
@@ -24,8 +25,10 @@ interface Props {
   bajada?: string;
   acciones?: Accion[];
   imagen?: ImageMetadata;
+  /* Subpath under /media of a silent short loop; `imagen` is used as poster. */
+  video?: { src: string; blur?: number; opacidad?: number };
 }
-const { variant = 'page', kicker, titulo, bajada, acciones, imagen } = Astro.props;
+const { variant = 'page', kicker, titulo, bajada, acciones, imagen, video } = Astro.props;
 
 /* Map an action variant to the shared button classes. */
 const btnClass = (v: Accion['variant'] = 'primary') =>
@@ -33,15 +36,25 @@ const btnClass = (v: Accion['variant'] = 'primary') =>
 ---
 
 <section class:list={['hero', `hero--${variant}`]}>
-  {imagen && (
-    <Image
-      src={imagen}
-      alt=""
-      widths={[768, 1280, 1920]}
-      sizes="100vw"
-      class="hero__bg"
-      loading="eager"
+  {video && imagen ? (
+    <VideoBackdrop
+      src={video.src}
+      poster={imagen}
+      opacidad={video.opacidad ?? 0.32}
+      blur={video.blur ?? 0}
+      eager
     />
+  ) : (
+    imagen && (
+      <Image
+        src={imagen}
+        alt=""
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        class="hero__bg"
+        loading="eager"
+      />
+    )
   )}
   <div class="container hero__inner">
     {kicker && <p class="hero__kicker">{kicker}</p>}

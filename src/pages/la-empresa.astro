@@ -1,8 +1,13 @@
 ---
 /*
  * La Empresa — institutional page.
- * Hero + section list + company band + verifiable stats + CTA.
+ *
+ * The hero runs the plant footage behind the presentation, slightly blurred so
+ * the source's softness reads as depth instead of loss of quality. The aerial
+ * photo of the plant anchors the "Quiénes somos" block; the rest of the page is
+ * company band, verifiable stats and CTA.
  */
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/primitives/Hero.astro';
 import SectionTitle from '../components/primitives/SectionTitle.astro';
@@ -12,6 +17,8 @@ import StatsStrip from '../components/primitives/StatsStrip.astro';
 import CTABand from '../components/primitives/CTABand.astro';
 import { getPagina, getHome, getContacto } from '../lib/site';
 import { buildMeta } from '../lib/seo';
+import plantaPoster from '../assets/img/planta-poster.jpg';
+import aerea from '../assets/img/aerea_planta.avif';
 
 const meta = buildMeta({
   titulo: 'La Empresa — RECUPERAR S.R.L.',
@@ -31,18 +38,35 @@ const contacto = await getContacto();
     kicker="La Empresa"
     titulo={empresa?.titulo ?? 'La Empresa'}
     bajada={empresa?.intro}
+    imagen={plantaPoster}
+    video={{ src: '/media/planta-loop.mp4', blur: 3, opacidad: 0.4 }}
   />
 
   {
     empresa && (
       <section class="section">
-        <div class="container">
-          <SectionTitle
-            eyebrow="Quiénes somos"
-            titulo="Una empresa minera e industrial con historia"
-            descripcion="Desde 2000 trabajamos para que cada nutriente llegue en la forma y el momento en que el cultivo lo necesita."
-          />
-          <FeatureList items={empresa.secciones} columnas={2} />
+        <div class="container quienes">
+          {empresa.aerea && (
+            <figure class="quienes__aerea">
+              <Image
+                src={aerea}
+                alt={empresa.aerea.alt}
+                width={340}
+                class="quienes__aerea-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>{empresa.aerea.caption}</figcaption>
+            </figure>
+          )}
+          <div class="quienes__copy">
+            <SectionTitle
+              eyebrow="Quiénes somos"
+              titulo="Una empresa minera e industrial con historia"
+              descripcion="Desde 2000 trabajamos para que cada nutriente llegue en la forma y el momento en que el cultivo lo necesita."
+            />
+            <FeatureList items={empresa.secciones} columnas={2} />
+          </div>
         </div>
       </section>
     )
@@ -73,3 +97,34 @@ const contacto = await getContacto();
     )
   }
 </BaseLayout>
+
+<style>
+  .quienes {
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+  .quienes__aerea {
+    margin: 0;
+  }
+  .quienes__aerea-img {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-2);
+  }
+  .quienes__aerea figcaption {
+    margin-top: var(--space-2);
+    max-width: 340px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  @media (min-width: 1024px) {
+    .quienes {
+      grid-template-columns: 340px 1fr;
+      gap: var(--space-7);
+    }
+  }
+</style>

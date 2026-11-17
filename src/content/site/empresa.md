@@ -13,6 +13,9 @@ secciones:
     texto: Nuestro yacimiento en San Ramón, La Rioja, nos permite controlar el origen y la calidad del mineral que forma parte de nuestros productos.
   - titulo: Compromiso ambiental
     texto: Trabajamos con un compromiso con el Medio Ambiente y la Agricultura Sustentable, mejorando el aprovechamiento de los nutrientes y la salud del suelo.
+aerea:
+  caption: Planta industrial — Córdoba
+  alt: Vista aérea de la planta industrial de RECUPERAR, con los galpones de acopio, la línea de molienda y la carga de camiones.
 ---
 
 La empresa desarrolla además equipamiento industrial y procesos para la fabricación y eficientización de los minerales.

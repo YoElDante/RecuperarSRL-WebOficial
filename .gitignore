@@ -1,10 +1,18 @@
 # Dependencies
 node_modules/
 
-# Raw product source material (images/PDFs inbox, not site code).
+# Raw source material for the site (images/PDFs/video inbox, not site code).
 # Anchored to the repo root on purpose: an unanchored `productos/` would also
 # swallow src/pages/productos/, silently dropping the catalog routes.
 /productos/
+
+# Raw video masters stay local; the web-ready derivatives that ship live in
+# public/media (hero loop, plant loop, technical film) and are committed.
+/src/assets/vid/
+
+# Panorama frames pulled from the client's footage: 800x200, not used by any
+# page yet and too small to ship at full width.
+/src/assets/img/*.jfif
 
 # Downloaded reference sites (inspiration only, never shipped)
 /inspiraciones/

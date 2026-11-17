@@ -5,7 +5,7 @@
  *  1. every internal href/src respects the configured base (Pages subpath);
  *  2. every page has a title and a meta description;
  *  3. no page repeats an id (invalid HTML, breaks anchors and a11y);
- *  4. the whole dist/ stays inside the 20 MB hosting budget.
+ *  4. the whole dist/ stays inside the hosting budget.
  *
  * Usage: node scripts/verify-build.mjs [base]
  */
@@ -16,7 +16,13 @@ import path from 'node:path';
 const base = process.argv[2] ?? '/';
 const prefix = base.endsWith('/') ? base.slice(0, -1) : base;
 const dist = path.resolve('dist');
-const BUDGET_BYTES = 20 * 1024 * 1024;
+
+/* Hosting budget. The original 20 MB gate came from the Wix Headless drop
+   ceiling; the premium plan gives 50 GB of media, so the budget now guards
+   against accidental bloat rather than a platform limit. The technical film
+   alone is ~45 MB, so the default has to accommodate it. */
+const BUDGET_MB = Number(process.env.BUDGET_MB ?? 120);
+const BUDGET_BYTES = BUDGET_MB * 1024 * 1024;
 
 const problems = [];
 
@@ -65,11 +71,11 @@ for (const file of htmlFiles) {
   }
 }
 
-// 4. Hosting budget (Wix Headless upload limit).
+// 4. Hosting budget (guards against accidental bloat; see BUDGET_MB above).
 let total = 0;
 for (const file of files) total += (await stat(file)).size;
 if (total > BUDGET_BYTES) {
-  problems.push(`dist is ${(total / 1024 / 1024).toFixed(2)} MB, over the 20 MB budget`);
+  problems.push(`dist is ${(total / 1024 / 1024).toFixed(2)} MB, over the ${BUDGET_MB} MB budget`);
 }
 
 // 5. Critical routes must exist. A route directory can vanish from the build
@@ -103,7 +109,7 @@ if (productPages.length < 17) {
 }
 
 console.log(`Checked ${htmlFiles.length} HTML files, ${files.length} files total.`);
-console.log(`dist size: ${(total / 1024 / 1024).toFixed(2)} MB / 20 MB`);
+console.log(`dist size: ${(total / 1024 / 1024).toFixed(2)} MB / ${BUDGET_MB} MB`);
 
 if (problems.length > 0) {
   console.error(`\n${problems.length} problem(s):`);

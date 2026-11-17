@@ -1,0 +1,108 @@
+---
+/*
+ * VideoBackdrop — decorative looping video behind a band of content.
+ *
+ * The poster is a real optimized image and paints first, so the band never
+ * flashes a black rectangle while the video loads; the video fades in only once
+ * it reports `playing`. Users who ask for reduced motion keep the poster and
+ * the video is removed from the render tree, so they download nothing extra.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { url } from '../../lib/urls';
+
+interface Props {
+  src: string;
+  poster: ImageMetadata;
+  /* Opacity of the footage over the band colour; keeps text legible. */
+  opacidad?: number;
+  /* Dark veil on top of the footage, for copy that sits over it. */
+  velo?: boolean;
+  /* Blur radius in px: hides a soft or low-bitrate source behind the text. */
+  blur?: number;
+  eager?: boolean;
+}
+const { src, poster, opacidad = 0.35, velo = true, blur = 0, eager = false } = Astro.props;
+
+/* Blurring an element pulls its edges inward, so the layers are scaled up a
+   little to avoid a visible vignette at the borders of the band. */
+const mediaStyle = blur > 0 ? `filter:blur(${blur}px);transform:scale(1.08)` : undefined;
+---
+
+<div class="video-backdrop" style={`--backdrop-opacity:${opacidad}`} aria-hidden="true">
+  <Image
+    src={poster}
+    alt=""
+    widths={[640, 1280, 1920]}
+    sizes="100vw"
+    class="video-backdrop__poster"
+    style={mediaStyle}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  <video
+    class="video-backdrop__video"
+    style={mediaStyle}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="none"
+  >
+    <source src={url(src)} type="video/mp4" />
+  </video>
+  {velo && <div class="video-backdrop__velo"></div>}
+</div>
+
+<script>
+  /*
+   * Reveal the video only when it is really painting a frame, otherwise the band
+   * would show the poster and then hard-cut to the stream the moment it starts.
+   */
+  for (const video of document.querySelectorAll<HTMLVideoElement>('.video-backdrop__video')) {
+    video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+  }
+</script>
+
+<style>
+  .video-backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .video-backdrop__poster,
+  .video-backdrop__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .video-backdrop__poster {
+    opacity: var(--backdrop-opacity, 0.35);
+  }
+  .video-backdrop__video {
+    opacity: 0;
+    transition: opacity 900ms var(--ease);
+  }
+  .video-backdrop__video.is-playing {
+    opacity: var(--backdrop-opacity, 0.35);
+  }
+  .video-backdrop__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      rgba(10, 46, 27, 0.95) 0%,
+      rgba(10, 46, 27, 0.72) 45%,
+      rgba(10, 46, 27, 0.25) 100%
+    );
+  }
+  /* Respect the system preference: no motion, and no bandwidth spent on it. */
+  @media (prefers-reduced-motion: reduce) {
+    .video-backdrop__video {
+      display: none;
+    }
+  }
+</style>
