@@ -3,34 +3,35 @@ pagina: home
 hero:
   kicker: Fertilizantes microgranulados · Córdoba, Argentina
   titulo: Soluciones eficientes para el máximo aprovechamiento de nutrientes
-  bajada: Fabricamos fertilizantes microgranulados, mezclas químicas y correctores para el agro, con cantera propia e I+D nacional.
+  bajada: Empresa minera, industrial y metalúrgica. Fabricamos fertilizantes microgranulados, mezclas químicas y correctores de suelo, con cantera propia e I+D nacional.
 diferenciales:
   - titulo: Primera fábrica argentina de microgranulados
     texto: Desde 2000 desarrollamos la tecnología de microgranulación en el país.
   - titulo: Cantera propia
     texto: Yacimiento en San Ramón, La Rioja, que garantiza el origen del mineral.
   - titulo: I+D propio
-    texto: Microgranulación, quelatado y liberación gradual de nitrógeno.
+    texto: Micro y nano fertilización, quelatado y liberación gradual del nitrógeno, con ensayos en INTA, UNC y UNRC.
   - titulo: 100 % capitales nacionales
-    texto: Una empresa minera e industrial cordobesa, con compromiso ambiental.
+    texto: Una empresa minera, industrial y metalúrgica cordobesa, con compromiso ambiental.
 bandaEmpresa:
-  titulo: Una empresa minera e industrial con cantera propia
-  texto: Desde 2000 desarrollamos equipamiento y procesos para la fabricación y eficientización de minerales. Nuestra planta en Puerto Caroya y el yacimiento de San Ramón nos permiten controlar la cadena de valor.
+  titulo: Una empresa minera, industrial y metalúrgica con cantera propia
+  texto: "Desde 2000 desarrollamos equipamiento y procesos para fabricar y eficientizar minerales. Somos industria de industrias: la planta de Puerto Caroya y el yacimiento de San Ramón nos permiten controlar la cadena de valor, del mineral al producto final."
   items:
-    - Planta de pelletizado, molienda y tratamiento en Puerto Caroya, Córdoba
+    - Planta de pelletizado, molienda, granulación y tratamiento en Puerto Caroya, Córdoba
     - Yacimiento propio en San Ramón, La Rioja
-    - Exportación de plantas llave en mano y tecnología
+    - Diseño propio de equipamiento y procesos industriales
+    - Exportación de productos y plantas llave en mano al Mercosur
 prioridad:
   eyebrow: Nuestra prioridad
   titulo: El fertilizante decide el rendimiento del lote
   texto: "Todo lo que hacemos parte de una misma premisa: el resultado del cultivo se define en la nutrición. Por eso concentramos ahí el desarrollo, la inversión y la producción."
   puntos:
     - titulo: Primero el estudio, después la fórmula
-      texto: Partimos del comportamiento del nutriente en el suelo —volatilización, lixiviación, fijación— y de nuestro desarrollo propio en microgranulación, quelatado y liberación gradual. La formulación responde a ese conocimiento, no a una receta fija.
+      texto: Partimos del comportamiento del nutriente en el suelo —volatilización, lixiviación, fijación— y lo validamos con ensayos propios y con universidades. La formulación responde a ese conocimiento, no a una receta fija.
     - titulo: Fabricamos lo que el estudio indica
-      texto: Producimos en nuestra planta la dosis justa, en la forma y el momento en que el cultivo la aprovecha. Eficiencia de absorción antes que volumen de aplicación.
+      texto: "Producimos la dosis justa, en la forma y el momento en que el cultivo la aprovecha. Con liberación gradual, el nitrógeno se libera según la demanda del cultivo: eficiencia de absorción antes que volumen de aplicación."
     - titulo: Cantera propia, mineral exacto
-      texto: Extraemos el mineral en nuestro yacimiento de San Ramón, La Rioja. Así controlamos el origen y ajustamos la composición sin depender de terceros.
+      texto: Extraemos el mineral en nuestro yacimiento de San Ramón, La Rioja, y ajustamos la composición en planta. Controlamos el origen sin depender de terceros.
 ctaBands:
   - titulo: ¿Buscás mejorar la eficiencia de tu fertilización?
     texto: Hablá con un asesor y armemos juntos el plan para tu cultivo.
