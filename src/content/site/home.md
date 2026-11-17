@@ -14,8 +14,8 @@ diferenciales:
   - titulo: 100 % capitales nacionales
     texto: Una empresa minera, industrial y metalúrgica cordobesa, con compromiso ambiental.
 bandaEmpresa:
-  titulo: Una empresa minera, industrial y metalúrgica con cantera propia
-  texto: "Desde 2000 desarrollamos equipamiento y procesos para fabricar y eficientizar minerales. Somos industria de industrias: la planta de Puerto Caroya y el yacimiento de San Ramón nos permiten controlar la cadena de valor, del mineral al producto final."
+  titulo: De la cantera al lote
+  texto: "El mineral sale de nuestro yacimiento en San Ramón y se transforma en la planta de Puerto Caroya, con equipamiento y procesos que desarrollamos nosotros. Controlar el origen y la transformación es lo que nos permite ajustar la fórmula y responder por lo que llega al lote."
   items:
     - Planta de pelletizado, molienda, granulación y tratamiento en Puerto Caroya, Córdoba
     - Yacimiento propio en San Ramón, La Rioja
