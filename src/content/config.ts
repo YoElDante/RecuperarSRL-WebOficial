@@ -93,8 +93,13 @@ const site = defineCollection({
       titulo: z.string(),
       intro: z.string(),
       secciones: z.array(z.object({ titulo: z.string(), texto: z.string() })),
-      /* Aerial photo of the plant, shown beside the company sections. */
+      /* Aerial photo of the plant, shown beside the plant card. */
       aerea: z.object({
+        caption: z.string(),
+        alt: z.string(),
+      }),
+      /* Wide 4:1 strip of the warehouse team, shown under the section title. */
+      panorama: z.object({
         caption: z.string(),
         alt: z.string(),
       }),

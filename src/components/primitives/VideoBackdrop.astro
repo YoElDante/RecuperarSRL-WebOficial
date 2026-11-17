@@ -4,8 +4,10 @@
  *
  * The poster is a real optimized image and paints first, so the band never
  * flashes a black rectangle while the video loads; the video fades in only once
- * it reports `playing`. Users who ask for reduced motion keep the poster and
- * the video is removed from the render tree, so they download nothing extra.
+ * it reports `playing`. From that moment the poster leaves the render, because
+ * keeping a still frame under moving footage reads as a double image. Users who
+ * ask for reduced motion keep the poster and the video is removed entirely, so
+ * they download nothing extra.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -56,11 +58,13 @@ const mediaStyle = blur > 0 ? `filter:blur(${blur}px);transform:scale(1.08)` : u
 
 <script>
   /*
-   * Reveal the video only when it is really painting a frame, otherwise the band
-   * would show the poster and then hard-cut to the stream the moment it starts.
+   * Hand the band over to the footage the moment it paints a frame: the video
+   * fades in and the poster fades out in the same transition, so the two never
+   * sit on top of each other.
    */
   for (const video of document.querySelectorAll<HTMLVideoElement>('.video-backdrop__video')) {
-    video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+    const band = video.closest('.video-backdrop');
+    video.addEventListener('playing', () => band?.classList.add('is-playing'), { once: true });
   }
 </script>
 
@@ -78,16 +82,20 @@ const mediaStyle = blur > 0 ? `filter:blur(${blur}px);transform:scale(1.08)` : u
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: opacity 900ms var(--ease);
   }
   .video-backdrop__poster {
     opacity: var(--backdrop-opacity, 0.35);
   }
   .video-backdrop__video {
     opacity: 0;
-    transition: opacity 900ms var(--ease);
   }
-  .video-backdrop__video.is-playing {
+  .video-backdrop.is-playing .video-backdrop__video {
     opacity: var(--backdrop-opacity, 0.35);
+  }
+  /* A still frame under moving footage looks like a ghost: drop it. */
+  .video-backdrop.is-playing .video-backdrop__poster {
+    opacity: 0;
   }
   .video-backdrop__velo {
     position: absolute;

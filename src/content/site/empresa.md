@@ -16,6 +16,9 @@ secciones:
 aerea:
   caption: Planta industrial — Córdoba
   alt: Vista aérea de la planta industrial de RECUPERAR, con los galpones de acopio, la línea de molienda y la carga de camiones.
+panorama:
+  caption: Personal de planta durante la carga de microgranulado.
+  alt: Operarios con casco en el depósito de RECUPERAR, junto a las estanterías de bolsones de fertilizante.
 ---
 
 La empresa desarrolla además equipamiento industrial y procesos para la fabricación y eficientización de los minerales.

@@ -2,23 +2,27 @@
 /*
  * La Empresa — institutional page.
  *
- * The hero runs the plant footage behind the presentation, slightly blurred so
- * the source's softness reads as depth instead of loss of quality. The aerial
- * photo of the plant anchors the "Quiénes somos" block; the rest of the page is
- * company band, verifiable stats and CTA.
+ * The hero runs the plant footage behind the presentation, blurred so the
+ * source's softness reads as depth rather than loss of quality. Under it the
+ * page opens with the section title, the warehouse panorama and the company
+ * cards, and only later introduces the plant itself: the aerial photo paired
+ * with a card, because a vertical photo floating on its own never looks
+ * integrated with the rest of the page.
  */
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/primitives/Hero.astro';
 import SectionTitle from '../components/primitives/SectionTitle.astro';
 import FeatureList from '../components/primitives/FeatureList.astro';
-import MediaBand from '../components/primitives/MediaBand.astro';
 import StatsStrip from '../components/primitives/StatsStrip.astro';
 import CTABand from '../components/primitives/CTABand.astro';
+import Icon from '../components/primitives/Icon.astro';
 import { getPagina, getHome, getContacto } from '../lib/site';
 import { buildMeta } from '../lib/seo';
+import { url } from '../lib/urls';
 import plantaPoster from '../assets/img/planta-poster.jpg';
 import aerea from '../assets/img/aerea_planta.avif';
+import personal from '../assets/img/personal-planta.jpg';
 
 const meta = buildMeta({
   titulo: 'La Empresa — RECUPERAR S.R.L.',
@@ -45,28 +49,29 @@ const contacto = await getContacto();
   {
     empresa && (
       <section class="section">
-        <div class="container quienes">
-          {empresa.aerea && (
-            <figure class="quienes__aerea">
+        <div class="container">
+          <SectionTitle
+            eyebrow="Quiénes somos"
+            titulo="Una empresa minera e industrial con historia"
+            descripcion="Desde 2000 trabajamos para que cada nutriente llegue en la forma y el momento en que el cultivo lo necesita."
+          />
+
+          {empresa.panorama && (
+            <figure class="pano">
               <Image
-                src={aerea}
-                alt={empresa.aerea.alt}
-                width={340}
-                class="quienes__aerea-img"
+                src={personal}
+                alt={empresa.panorama.alt}
+                widths={[400, 800]}
+                sizes="(min-width: 1024px) 1160px, 100vw"
+                class="pano__img"
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption>{empresa.aerea.caption}</figcaption>
+              <figcaption>{empresa.panorama.caption}</figcaption>
             </figure>
           )}
-          <div class="quienes__copy">
-            <SectionTitle
-              eyebrow="Quiénes somos"
-              titulo="Una empresa minera e industrial con historia"
-              descripcion="Desde 2000 trabajamos para que cada nutriente llegue en la forma y el momento en que el cultivo lo necesita."
-            />
-            <FeatureList items={empresa.secciones} columnas={2} />
-          </div>
+
+          <FeatureList items={empresa.secciones} columnas={2} />
         </div>
       </section>
     )
@@ -74,13 +79,43 @@ const contacto = await getContacto();
 
   {
     home && (
-      <MediaBand
-        titulo={home.bandaEmpresa.titulo}
-        texto={home.bandaEmpresa.texto}
-        items={home.bandaEmpresa.items}
-        accion={{ label: 'Conocé los productos', href: '/productos' }}
-        tono="oscuro"
-      />
+      <section class="section">
+        <div class="container planta">
+          {empresa?.aerea && (
+            <figure class="planta__aerea">
+              <Image
+                src={aerea}
+                alt={empresa.aerea.alt}
+                width={337}
+                class="planta__aerea-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>{empresa.aerea.caption}</figcaption>
+            </figure>
+          )}
+
+          <article class="planta__card">
+            <p class="planta__eyebrow">La planta y el yacimiento</p>
+            <h2>{home.bandaEmpresa.titulo}</h2>
+            <p class="planta__texto">{home.bandaEmpresa.texto}</p>
+            <ul class="planta__items">
+              {
+                home.bandaEmpresa.items.map((item) => (
+                  <li>
+                    <Icon name="check" size={16} />
+                    <span>{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+            <a class="btn btn-outline" href={url('/productos')}>
+              Conocé los productos
+              <Icon name="arrow-right" size={16} />
+            </a>
+          </article>
+        </div>
+      </section>
     )
   }
 
@@ -99,32 +134,100 @@ const contacto = await getContacto();
 </BaseLayout>
 
 <style>
-  .quienes {
+  /* Warehouse strip: the source is 800x200, so it is shown wide and short,
+     which is also how the frame was composed. */
+  .pano {
+    margin: var(--space-6) 0 var(--space-7);
+  }
+  .pano__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-2);
+  }
+  .pano figcaption {
+    margin-top: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .planta {
     display: grid;
     gap: var(--space-6);
     align-items: start;
     grid-template-columns: 1fr;
   }
-  .quienes__aerea {
+  .planta__aerea {
     margin: 0;
   }
-  .quienes__aerea-img {
+  .planta__aerea-img {
     width: 100%;
-    max-width: 340px;
+    max-width: 337px;
     height: auto;
     border-radius: var(--radius);
     box-shadow: var(--shadow-2);
   }
-  .quienes__aerea figcaption {
+  .planta__aerea figcaption {
     margin-top: var(--space-2);
-    max-width: 340px;
+    max-width: 337px;
     font-size: 0.8rem;
     color: var(--text-muted);
   }
+
+  /* The card is what anchors the photo: same surface and radius language as the
+     feature cards above, with the plant facts spelled out beside the image. */
+  .planta__card {
+    padding: var(--space-5);
+    background: var(--surface);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--brand-100);
+    box-shadow: var(--shadow-2);
+  }
+  .planta__eyebrow {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-text);
+  }
+  .planta__card h2 {
+    margin: 0 0 var(--space-3);
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  }
+  .planta__texto {
+    margin: 0 0 var(--space-4);
+    color: var(--text-muted);
+  }
+  .planta__items {
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .planta__items li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    font-size: 0.95rem;
+  }
+  .planta__items :global(svg) {
+    color: var(--brand-600);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
   @media (min-width: 1024px) {
-    .quienes {
-      grid-template-columns: 340px 1fr;
+    .planta {
+      grid-template-columns: 337px 1fr;
       gap: var(--space-7);
+    }
+    .planta__card {
+      padding: var(--space-6);
     }
   }
 </style>
