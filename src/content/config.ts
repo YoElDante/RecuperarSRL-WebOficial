@@ -78,6 +78,13 @@ const site = defineCollection({
         texto: z.string(),
         items: z.array(z.string()),
       }),
+      /* The thesis section that opens the catalog, before the product lines. */
+      prioridad: z.object({
+        eyebrow: z.string(),
+        titulo: z.string(),
+        texto: z.string(),
+        puntos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2).max(4),
+      }),
       ctaBands: z.array(z.object({ titulo: z.string(), texto: z.string() })),
       stats: z.array(z.object({ valor: z.string(), label: z.string() })),
     }),

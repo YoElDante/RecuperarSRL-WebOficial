@@ -42,13 +42,16 @@ const icons: Record<string, string> = {
   flower:
     '<circle cx="12" cy="9" r="2"/><path d="M12 7c0-2 1-3 3-3s3 1 3 3-1 3-3 3"/><path d="M12 7c0-2-1-3-3-3S6 5 6 7s1 3 3 3"/><path d="M12 11v10"/>',
   drop: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+  play: '<path d="M8 4.8v14.4L20 12z"/>',
 };
 
 const inner = icons[name] ?? icons.check;
 
 /* Brand marks are drawn solid: as thin outlines at 18–26px the WhatsApp
-   handset turns into an unreadable smudge, so these bypass the stroke style. */
-const SOLID = new Set(['whatsapp']);
+   handset turns into an unreadable smudge, so these bypass the stroke style.
+   The play triangle is solid for the same reason: an outlined triangle reads as
+   an arrow, not as a control. */
+const SOLID = new Set(['whatsapp', 'play']);
 const isSolid = SOLID.has(name);
 
 const a11y = label

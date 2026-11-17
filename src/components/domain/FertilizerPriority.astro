@@ -1,0 +1,151 @@
+---
+/*
+ * FertilizerPriority — the argument that opens the catalog.
+ *
+ * Sits between the differentiator strip and the product lines, and states the
+ * company's thesis: the fertilizer is where yield is decided, so the formula
+ * comes from study and is manufactured from their own quarry mineral. The
+ * technical video is the proof, behind a click-to-play facade so its 45 MB never
+ * touch the page load.
+ */
+import type { ImageMetadata } from 'astro';
+import Icon from '../primitives/Icon.astro';
+import VideoFacade from '../primitives/VideoFacade.astro';
+import { url } from '../../lib/urls';
+
+interface Props {
+  eyebrow: string;
+  titulo: string;
+  texto: string;
+  puntos: Array<{ titulo: string; texto: string }>;
+  video: {
+    src: string;
+    poster: ImageMetadata;
+    titulo: string;
+    duracion: string;
+    nota?: string;
+  };
+}
+const { eyebrow, titulo, texto, puntos, video } = Astro.props;
+---
+
+<section class="priority">
+  <div class="container priority__inner">
+    <div class="priority__copy">
+      <p class="priority__eyebrow">{eyebrow}</p>
+      <h2 class="priority__titulo">{titulo}</h2>
+      <p class="priority__lead">{texto}</p>
+
+      <ul class="priority__puntos">
+        {
+          puntos.map((punto) => (
+            <li>
+              <Icon name="check" size={18} />
+              <div>
+                <strong>{punto.titulo}</strong>
+                <span>{punto.texto}</span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="btn btn-primary" href={url('/productos')}>
+        Ver las líneas de producto
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+
+    <div class="priority__media">
+      <VideoFacade
+        src={video.src}
+        poster={video.poster}
+        titulo={video.titulo}
+        duracion={video.duracion}
+        nota={video.nota}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .priority {
+    --video-caption-muted: var(--text-on-dark);
+    padding-block: var(--space-8);
+    background: var(--brand-900);
+    color: #fff;
+  }
+  .priority__inner {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  .priority__eyebrow {
+    margin: 0 0 var(--space-3);
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--accent-fill);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: var(--fs-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: var(--radius);
+  }
+  .priority__titulo {
+    color: #fff;
+    margin: 0 0 var(--space-4);
+    max-width: 22ch;
+  }
+  .priority__lead {
+    color: var(--text-on-dark);
+    font-size: 1.1rem;
+    max-width: 52ch;
+    margin: 0 0 var(--space-5);
+  }
+  .priority__puntos {
+    list-style: none;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .priority__puntos li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+  .priority__puntos :global(svg) {
+    color: var(--accent-fill);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .priority__puntos strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .priority__puntos span {
+    color: var(--text-on-dark);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .priority__copy .btn {
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 1024px) {
+    .priority {
+      padding-block: var(--space-9);
+    }
+    .priority__inner {
+      grid-template-columns: 1fr 1.05fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

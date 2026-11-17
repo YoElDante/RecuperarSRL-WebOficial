@@ -17,6 +17,7 @@ import DifferentialStrip from '../components/primitives/DifferentialStrip.astro'
 import MediaBand from '../components/primitives/MediaBand.astro';
 import StatsStrip from '../components/primitives/StatsStrip.astro';
 import CTABand from '../components/primitives/CTABand.astro';
+import FertilizerPriority from '../components/domain/FertilizerPriority.astro';
 import ContactInfoCard from '../components/domain/ContactInfoCard.astro';
 import SalesContacts from '../components/domain/SalesContacts.astro';
 import { getHome, getContacto } from '../lib/site';
@@ -25,6 +26,7 @@ import { TIPOS_CULTIVO } from '../lib/taxonomy';
 import { buildMeta } from '../lib/seo';
 import { url } from '../lib/urls';
 import heroPoster from '../assets/img/hero-poster.jpg';
+import microfusionPoster from '../assets/img/microfusion-poster.jpg';
 
 const meta = buildMeta({
   titulo: 'RECUPERAR S.R.L. — Fertilizantes microgranulados de Córdoba',
@@ -58,6 +60,24 @@ const destacados = await getDestacados();
   }
 
   {home && <DifferentialStrip items={home.diferenciales} />}
+
+  {
+    home && (
+      <FertilizerPriority
+        eyebrow={home.prioridad.eyebrow}
+        titulo={home.prioridad.titulo}
+        texto={home.prioridad.texto}
+        puntos={home.prioridad.puntos}
+        video={{
+          src: '/media/microfusion.mp4',
+          poster: microfusionPoster,
+          titulo: 'Cómo se pierde el nutriente y cómo se evita',
+          duracion: '5:20',
+          nota: 'Video técnico: fertilización de fondo, pérdidas por volatilización y lixiviación, y tecnología de microfusión.',
+        }}
+      />
+    )
+  }
 
   <section class="section">
     <div class="container">

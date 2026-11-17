@@ -20,6 +20,17 @@ bandaEmpresa:
     - Planta de pelletizado, molienda y tratamiento en Puerto Caroya, Córdoba
     - Yacimiento propio en San Ramón, La Rioja
     - Exportación de plantas llave en mano y tecnología
+prioridad:
+  eyebrow: Nuestra prioridad
+  titulo: El fertilizante decide el rendimiento del lote
+  texto: "Todo lo que hacemos parte de una misma premisa: el resultado del cultivo se define en la nutrición. Por eso concentramos ahí el desarrollo, la inversión y la producción."
+  puntos:
+    - titulo: Primero el estudio, después la fórmula
+      texto: Partimos del comportamiento del nutriente en el suelo —volatilización, lixiviación, fijación— y de nuestro desarrollo propio en microgranulación, quelatado y liberación gradual. La formulación responde a ese conocimiento, no a una receta fija.
+    - titulo: Fabricamos lo que el estudio indica
+      texto: Producimos en nuestra planta la dosis justa, en la forma y el momento en que el cultivo la aprovecha. Eficiencia de absorción antes que volumen de aplicación.
+    - titulo: Cantera propia, mineral exacto
+      texto: Extraemos el mineral en nuestro yacimiento de San Ramón, La Rioja. Así controlamos el origen y ajustamos la composición sin depender de terceros.
 ctaBands:
   - titulo: ¿Buscás mejorar la eficiencia de tu fertilización?
     texto: Hablá con un asesor y armemos juntos el plan para tu cultivo.
