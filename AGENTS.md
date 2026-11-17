@@ -66,6 +66,7 @@ npm run check      # type/content-collection checks, run before committing
 | `docs/backlog.md` | phase plan + open questions |
 | `docs/contenido-relevado.md` | real content inventory from the current site |
 | `docs/ficha-empresa.md` | official company data (phones, socials, plants, LinkedIn profile) — source of truth for site content |
+| `docs/perfil-empresa.md` | company profile, milestones, technology, vocabulary, what we don't publish, open questions |
 | `docs/inspiracion-diseno.md` | design reference: fertinagro.es patterns and their application |
 | `docs/wix/` | Wix ecosystem research and setup notes |
 

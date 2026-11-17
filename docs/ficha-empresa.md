@@ -2,14 +2,19 @@
 
 > Fuente de verdad de los datos institucionales para el sitio web. Si algo cambia, editar acá
 > primero y reflejarlo en el contenido de las páginas. Última actualización: nov-2026.
+>
+> Este archivo es la **hoja de datos**: contacto, direcciones, plantas, redes y diferenciales
+> verificables. El **perfil narrativo** (definición oficial, hitos, tecnología, mercados, equipo,
+> glosario de la empresa, qué no publicamos y pendientes de confirmar) vive en
+> `docs/perfil-empresa.md`, para no contar la misma historia en dos lugares.
 
 ## Perfil general
 
 | Dato | Valor |
 |---|---|
 | Nombre | RECUPERAR S.R.L. |
-| Tipo | Empresa minera e industrial — 100% capitales nacionales |
-| Rubro | Fertilizantes microgranulados, mezclas químicas y correctores para el agro |
+| Tipo | Empresa minera, industrial y metalúrgica — 100% capitales nacionales |
+| Rubro | Fertilizantes microgranulados, mezclas químicas, correctores de suelo y bioestimulantes |
 | Sector (LinkedIn) | Agricultura |
 | Fundación | 2000 |
 | Tamaño (LinkedIn) | 51–200 empleados |
@@ -41,6 +46,9 @@ y efficientización de los minerales.
 | Mesopotamia | 3436 443000 |
 | Centro y Norte | 351 6411025 |
 
+> El teléfono de Núcleo está en revisión: la descripción enviada por el cliente en ago-2026
+> consigna `11 5152-1958`. No cambiar el sitio hasta confirmarlo (ver `docs/perfil-empresa.md`).
+
 ## Plantas y yacimiento
 
 | Ubicación | Detalle |
@@ -61,7 +69,7 @@ y efficientización de los minerales.
 
 | Recurso | URL |
 |---|---|
-| Perfil de Google (Maps/Negocios) | https://share.google/JETo9IfU74geJ15mJ |
+| Perfil de Google (Maps/Negocios) | https://share.google/JeTo9IfU74geJ15mJ |
 | Teléfono de cabecera (header/logo de LinkedIn) | +54 351 4816012 |
 
 ## Especialidades (perfil LinkedIn — fuente para SEO y textos)
