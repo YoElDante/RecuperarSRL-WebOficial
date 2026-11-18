@@ -197,11 +197,11 @@ svg {
 }
 .btn-whatsapp {
   background: var(--whatsapp);
-  color: #06331a;
+  color: var(--brand-900);
 }
 .btn-whatsapp:hover {
   background: #1eb954;
-  color: #06331a;
+  color: var(--brand-900);
 }
 
 /* ---- Prose (long-form institutional text) ---- */

@@ -3,39 +3,41 @@
  * Every color, radius, shadow, spacing and duration used anywhere in the UI
  * must come from here. No component may hardcode these values.
  *
- * Brand green is sampled from the official Recuperar logo (#007B3C).
- * The amber accent comes from the PronoAgro reference (#E2A41A) and is split
- * into fill (backgrounds) vs text (AA-safe on white) because white-on-amber
- * fails contrast at 2.2:1.
+ * The palette is taken from the company's official site (Wix theme, --color_NN
+ * variables) and cross-checked against the logo pixels: the logo measures
+ * #107A4B, the theme declares #0F7945. Same green, so #0F7945 is the anchor.
+ * The accent is not amber: the official secondary is the lime/olive family.
+ * Shades the theme does not declare are derived here and documented in
+ * docs/perfil-estetico.md.
  */
 :root {
-  /* ---- Brand: Recuperar green ---- */
-  --brand-50: #eef6f1;
-  --brand-100: #d6e9dd;
-  --brand-200: #a9d3b9;
-  --brand-500: #007b3c; /* primary brand green */
-  --brand-600: #006b34; /* header, hover surfaces */
-  --brand-700: #00542a; /* headings on light */
-  --brand-900: #0a2e1b; /* dark bands, footer, overlays */
+  /* ---- Brand: official Recuperar green ---- */
+  --brand-50: #e8f1df; /* tint, 8 % green over ivory */
+  --brand-100: #d1e4ce; /* tint, 18 % */
+  --brand-200: #b9d7bd; /* tint, 28 % */
+  --brand-500: #0f7945; /* primary brand green (theme slot 18, logo) */
+  --brand-600: #0c6339; /* derived −18 %: header, hover surfaces */
+  --brand-700: #0a512e; /* official dark green (slot 19) */
+  --brand-900: #052817; /* official deepest green (slot 20): bands, footer */
 
-  /* ---- Accent: PronoAgro amber ---- */
-  --accent-fill: #e2a41a; /* backgrounds only; pair with --text */
-  --accent-hover: #c98f12;
-  --accent-text: #9a6e06; /* amber for text on light surfaces (AA) */
+  /* ---- Accent: official lime / olive ---- */
+  --accent-fill: #a5c044; /* backgrounds only; pair with --text */
+  --accent-hover: #7d9231; /* derived: hover on lime fills */
+  --accent-text: #536121; /* olive for text and rules on light (AA) */
 
-  /* ---- Neutrals ---- */
-  --bg: #f7f9f7;
+  /* ---- Neutrals: official warm base + greys ---- */
+  --bg: #fbfbec; /* official ivory (slot 4) */
   --surface: #ffffff;
-  --surface-alt: #f0f4f0;
-  --border: #e1e8e1;
-  --text: #1a211c;
-  --text-muted: #5e6b60;
-  --text-on-dark: #d8e5db;
+  --surface-alt: #fdfdf5; /* official off-white (slot 26) */
+  --border: #e3e3d2; /* derived: ivory −1 step */
+  --text: #161616; /* official near-black (slot 3) */
+  --text-muted: #3f3f3f; /* official grey (slot 9) */
+  --text-on-dark: #d7e2da; /* derived from ivory, for paragraphs on deep green */
 
   /* ---- Functional ---- */
-  --whatsapp: #25d366;
+  --whatsapp: #25d366; /* WhatsApp brand, not ours */
   --danger: #c0392b;
-  --focus-ring: rgba(0, 123, 60, 0.28);
+  --focus-ring: rgba(15, 121, 69, 0.35); /* brand-500 at 35 % */
 
   /* ---- Typography ---- */
   --font-display: 'Barlow', system-ui, -apple-system, sans-serif;
@@ -62,10 +64,10 @@
   --radius: 4px;
   --radius-lg: 8px;
 
-  /* ---- Elevation ---- */
-  --shadow-1: 0 1px 2px rgba(10, 46, 27, 0.06);
-  --shadow-2: 0 4px 16px rgba(10, 46, 27, 0.08);
-  --shadow-3: 0 12px 32px rgba(10, 46, 27, 0.12);
+  /* ---- Elevation (green-tinted, from the deepest brand green) ---- */
+  --shadow-1: 0 1px 2px rgba(5, 40, 23, 0.06);
+  --shadow-2: 0 4px 16px rgba(5, 40, 23, 0.08);
+  --shadow-3: 0 12px 32px rgba(5, 40, 23, 0.12);
 
   /* ---- Motion ---- */
   --dur: 220ms;
