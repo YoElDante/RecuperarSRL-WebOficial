@@ -27,6 +27,7 @@ import { buildMeta } from '../lib/seo';
 import { url } from '../lib/urls';
 import heroPoster from '../assets/img/hero-poster.webp';
 import microfusionPoster from '../assets/img/microfusion-poster.webp';
+import logoBlanco from '../assets/logos/logo-blanco.webp';
 
 const meta = buildMeta({
   titulo: 'RECUPERAR S.R.L. — Fertilizantes microgranulados de Córdoba',
@@ -54,6 +55,7 @@ const destacados = await getDestacados();
           { label: 'La empresa', href: '/la-empresa', variant: 'outline' },
         ]}
         imagen={heroPoster}
+        logo={logoBlanco}
         video={{ src: '/media/hero-loop.mp4', opacidad: 0.3 }}
       />
     )

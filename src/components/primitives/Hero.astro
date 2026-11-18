@@ -4,6 +4,9 @@
  * Optional background media keeps the same structure; without a photo it stays
  * a bold, text-led hero. When both `imagen` and `video` are passed, the image
  * becomes the poster of a background video that fades in once it plays.
+ *
+ * `logo` is the negative (white) wordmark. The green mark on the green hero
+ * measures 1.02:1, so the hero never uses the coloured version.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -25,10 +28,12 @@ interface Props {
   bajada?: string;
   acciones?: Accion[];
   imagen?: ImageMetadata;
+  /* Negative wordmark shown above the copy; only pass the white version. */
+  logo?: ImageMetadata;
   /* Subpath under /media of a silent short loop; `imagen` is used as poster. */
   video?: { src: string; blur?: number; opacidad?: number };
 }
-const { variant = 'page', kicker, titulo, bajada, acciones, imagen, video } = Astro.props;
+const { variant = 'page', kicker, titulo, bajada, acciones, imagen, logo, video } = Astro.props;
 
 /* Map an action variant to the shared button classes. */
 const btnClass = (v: Accion['variant'] = 'primary') =>
@@ -57,6 +62,18 @@ const btnClass = (v: Accion['variant'] = 'primary') =>
     )
   )}
   <div class="container hero__inner">
+    {
+      logo && (
+        <Image
+          src={logo}
+          alt="RECUPERAR S.R.L."
+          widths={[240, 320, 480]}
+          sizes="(min-width: 1024px) 250px, 60vw"
+          class="hero__logo"
+          loading="eager"
+        />
+      )
+    }
     {kicker && <p class="hero__kicker">{kicker}</p>}
     <h1 class="hero__title">{titulo}</h1>
     {bajada && <p class="hero__bajada">{bajada}</p>}
@@ -104,6 +121,12 @@ const btnClass = (v: Accion['variant'] = 'primary') =>
   }
   .hero--page .hero__inner {
     padding-block: var(--space-8);
+  }
+  .hero__logo {
+    display: block;
+    width: clamp(170px, 24vw, 250px);
+    height: auto;
+    margin: 0 0 var(--space-5);
   }
   .hero__kicker {
     display: inline-block;
