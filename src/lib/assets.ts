@@ -14,7 +14,7 @@ const productModules = import.meta.glob<ImageMetadata>('../assets/products/*.web
 });
 
 /* All crop photos, keyed by their file path. */
-const cropModules = import.meta.glob<ImageMetadata>('../assets/crops/*.jpg', {
+const cropModules = import.meta.glob<ImageMetadata>('../assets/crops/*.webp', {
   eager: true,
   import: 'default',
 });
@@ -26,5 +26,5 @@ export function getProductImage(slug: string): ImageMetadata | undefined {
 
 /* Return the crop image for a slug, or undefined if it has none. */
 export function getCropImage(slug: string): ImageMetadata | undefined {
-  return cropModules[`../assets/crops/${slug}.jpg`];
+  return cropModules[`../assets/crops/${slug}.webp`];
 }
