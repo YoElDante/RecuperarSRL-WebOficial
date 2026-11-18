@@ -5,7 +5,7 @@
  * the shell, so individual pages never have to wire it themselves.
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { LINEAS, TIPOS_CULTIVO } from './taxonomy';
+import { TIPOS_CULTIVO } from './taxonomy';
 import { url } from './urls';
 
 type SiteEntry = CollectionEntry<'site'>;
@@ -39,26 +39,19 @@ export interface NavItem {
   children?: Array<{ label: string; href: string }>;
 }
 
-/* Main navigation: product lines and crop types feed the two dropdowns. */
+/* Main navigation: Empresa first, then a direct products link and the crop-type path. */
 export function getNav(): NavItem[] {
   return [
+    { label: 'La Empresa', href: url('/la-empresa') },
+    { label: 'Productos', href: url('/productos') },
     {
-      label: 'Productos',
-      href: url('/productos'),
-      children: LINEAS.map((linea) => ({
-        label: linea.label,
-        href: url(`/productos#linea-${linea.id}`),
-      })),
-    },
-    {
-      label: 'Cultivos',
+      label: 'Tipos de cultivo',
       href: url('/cultivos/extensivos'),
       children: TIPOS_CULTIVO.map((tipo) => ({
-        label: tipo.plural,
+        label: tipo.label,
         href: url(`/cultivos/${tipo.id}s`),
       })),
     },
-    { label: 'La Empresa', href: url('/la-empresa') },
     { label: '¿Qué Hacemos?', href: url('/que-hacemos') },
   ];
 }
