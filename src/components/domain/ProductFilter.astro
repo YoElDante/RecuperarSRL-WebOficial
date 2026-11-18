@@ -2,9 +2,13 @@
 /*
  * ProductFilter — anchor bar to jump between the 5 product lines.
  * Pure links, zero JavaScript; each anchor matches a LineSection id.
+ * Uses the same line icons as the landing page LineCard.
  */
+import type { Linea } from '../../lib/taxonomy';
+import Icon from '../primitives/Icon.astro';
+
 interface Props {
-  lineas: Array<{ id: string; label: string; cantidad: number }>;
+  lineas: Array<Linea & { cantidad: number }>;
 }
 const { lineas } = Astro.props;
 ---
@@ -13,6 +17,7 @@ const { lineas } = Astro.props;
   {
     lineas.map((linea) => (
       <a href={`#linea-${linea.id}`}>
+        <span class="product-filter__icon"><Icon name={linea.icono} size={18} /></span>
         {linea.label}
         <span class="product-filter__count">{linea.cantidad}</span>
       </a>
@@ -43,6 +48,17 @@ const { lineas } = Astro.props;
   .product-filter a:hover {
     border-color: var(--brand-500);
     background: var(--brand-50);
+  }
+  .product-filter__icon {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-50);
+    color: var(--brand-600);
+    border-radius: var(--radius);
   }
   .product-filter__count {
     display: inline-flex;

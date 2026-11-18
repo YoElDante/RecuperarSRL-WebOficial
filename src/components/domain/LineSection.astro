@@ -2,11 +2,13 @@
 /*
  * LineSection — one product line block with an anchor id for the index.
  * The anchor is what the header dropdown and the product filter link to.
+ * The icon matches the one used for the same line on the landing page.
  */
 import type { Linea } from '../../lib/taxonomy';
 import type { Producto } from '../../lib/products';
 import CardGrid from '../primitives/CardGrid.astro';
 import ProductCard from '../primitives/ProductCard.astro';
+import Icon from '../primitives/Icon.astro';
 
 interface Props {
   linea: Linea;
@@ -17,8 +19,11 @@ const { linea, productos } = Astro.props;
 
 <section class="line-section" id={`linea-${linea.id}`}>
   <div class="line-section__head">
-    <h2>{linea.label}</h2>
-    <p>{linea.descripcion}</p>
+    <span class="line-section__icon"><Icon name={linea.icono} size={30} /></span>
+    <div>
+      <h2>{linea.label}</h2>
+      <p>{linea.descripcion}</p>
+    </div>
   </div>
   <CardGrid columnas={4}>
     {productos.map((producto) => <ProductCard producto={producto} />)}
@@ -32,7 +37,21 @@ const { linea, productos } = Astro.props;
     border-bottom: 1px solid var(--border);
   }
   .line-section__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
     margin-bottom: var(--space-5);
+  }
+  .line-section__icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-50);
+    color: var(--brand-600);
+    border-radius: var(--radius);
   }
   .line-section__head h2 {
     margin-bottom: var(--space-1);
